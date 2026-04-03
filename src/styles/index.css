@@ -1,0 +1,14 @@
+@import './base.css';
+@import './navbar.css';
+@import './hero.css';
+@import './footer.css';
+@import './auth.css';
+@import './dashboard.css';
+@import './settings.css';
+@import './community.css';
+@import './lessons.css';
+@import './intro-page.css';
+@import './animations.css';
+@import './toast.css';
+@import './dark-mode.css';
+@import './responsive.css';

@@ -1,0 +1,127 @@
+/* ============================================
+   FineTuning - Footer (Dark Gradient)
+   ============================================ */
+
+.footer {
+    background: linear-gradient(180deg, #111827 0%, #0A0F1A 100%);
+    color: var(--text-white);
+    padding: 80px 0 32px;
+}
+
+.footer-content {
+    display: grid;
+    grid-template-columns: 2fr 1.5fr 1.3fr;
+    gap: 48px;
+    margin-bottom: 40px;
+}
+
+/* Brand */
+.footer-brand { max-width: 400px; }
+.footer-logo {
+    font-size: 22px;
+    font-weight: 800;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.footer-logo .brand-fine { color: var(--primary-blue-light); }
+.footer-logo .brand-tuning { color: #FFFFFF; }
+.footer-description {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.6);
+    line-height: 1.7;
+}
+
+/* Links */
+.footer-links h4,
+.footer-contact h4 {
+    font-size: 16px;
+    font-weight: 700;
+    color: #FFFFFF;
+    margin-bottom: 20px;
+}
+.footer-link-list {
+    list-style: none;
+    columns: 2;
+    column-gap: 28px;
+}
+.footer-link-list li {
+    margin-bottom: 10px;
+    break-inside: avoid;
+}
+.footer-link-list a {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.5);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+.footer-link-list a:hover { color: #93C5FD; }
+
+/* Contact */
+.footer-contact p {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 15px;
+    margin-bottom: 10px;
+    line-height: 1.7;
+}
+.footer-email {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.footer-email-icon {
+    font-size: 16px;
+}
+.footer-email a {
+    color: #93C5FD;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+.footer-email a:hover {
+    color: #BFDBFE;
+    text-decoration: underline;
+}
+.business-hours {
+    margin-top: 12px;
+    font-style: italic;
+}
+
+/* Family Site */
+.footer-family {
+    margin-top: 20px;
+}
+.footer-family select {
+    width: 100%;
+    padding: 8px 12px;
+    background: rgba(255, 255, 255, 0.08);
+    color: rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 6px;
+    font-size: 13px;
+    cursor: pointer;
+    appearance: auto;
+}
+.footer-family select:hover {
+    border-color: rgba(255, 255, 255, 0.3);
+}
+.footer-family select option {
+    background: #1f2937;
+    color: #e5e7eb;
+}
+
+/* Bottom */
+.footer-bottom {
+    text-align: center;
+    padding-top: 24px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 14px;
+}
+.footer-bottom-info {
+    margin-top: 8px;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.4);
+    line-height: 1.6;
+}
