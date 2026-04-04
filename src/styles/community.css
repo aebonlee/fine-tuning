@@ -3,19 +3,22 @@
    ============================================ */
 
 .community-page {
-    padding: calc(var(--nav-height) + 32px) 0 60px;
+    padding: calc(var(--nav-height) + 40px) 0 60px;
     min-height: 100vh;
 }
 .community-page h1 {
-    font-size: 28px;
+    font-size: 26px;
     font-weight: 800;
-    margin-bottom: 8px;
+    margin-bottom: 6px;
+    letter-spacing: -0.02em;
 }
 .page-desc {
-    font-size: 15px;
+    font-size: 14px;
     color: var(--text-secondary);
     line-height: 1.7;
     margin-bottom: 24px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border-light);
 }
 
 /* Board Filters */
@@ -99,21 +102,22 @@
 }
 .board-card-title {
     font-size: 15px;
-    font-weight: 500;
+    font-weight: 600;
     color: var(--text-primary);
-    margin-bottom: 4px;
+    margin-bottom: 6px;
+    line-height: 1.5;
 }
 .board-card-meta {
-    font-size: 13px;
+    font-size: 12px;
     color: var(--text-light);
     display: flex;
-    gap: 12px;
+    gap: 10px;
 }
 .board-card-stats {
     display: flex;
     align-items: center;
     gap: 12px;
-    font-size: 13px;
+    font-size: 12px;
     color: var(--text-light);
 }
 
@@ -201,8 +205,8 @@ a.board-nav-item:hover {
     padding: calc(var(--nav-height) + 32px) 0 60px;
 }
 .board-write-form h1 {
-    font-size: 28px;
-    font-weight: 800;
+    font-size: 24px;
+    font-weight: 700;
     margin-bottom: 24px;
 }
 .board-write-form {

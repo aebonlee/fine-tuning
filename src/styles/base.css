@@ -116,7 +116,7 @@ html {
 
 body {
     font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-    line-height: 1.7;
+    line-height: 1.75;
     letter-spacing: -0.01em;
     color: var(--text-primary);
     background: var(--bg-white);
@@ -129,8 +129,8 @@ body {
 }
 
 h1, h2, h3, h4 { word-break: keep-all; overflow-wrap: break-word; }
-h1 { line-height: 1.3; }
-h2 { line-height: 1.35; }
+h1 { line-height: 1.3; letter-spacing: -0.025em; }
+h2 { line-height: 1.35; letter-spacing: -0.02em; }
 h3 { line-height: 1.4; letter-spacing: -0.015em; }
 h4 { line-height: 1.45; letter-spacing: -0.01em; }
 
@@ -198,9 +198,8 @@ a { color: inherit; text-decoration: none; }
 }
 
 .btn-sm {
-    padding: 10px 20px;
+    padding: 8px 20px;
     font-size: 14px;
-    min-height: 40px;
 }
 
 .btn-link {
@@ -217,21 +216,21 @@ a { color: inherit; text-decoration: none; }
 /* ── Section Headers ── */
 .section-header {
     text-align: center;
-    margin-bottom: 72px;
+    margin-bottom: 64px;
 }
 .section-title {
-    font-size: 42px;
-    font-weight: 700;
+    font-size: 36px;
+    font-weight: 800;
     color: var(--text-primary);
     margin-bottom: 16px;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.025em;
 }
 .section-subtitle {
-    font-size: 18px;
+    font-size: 17px;
     color: var(--text-secondary);
-    max-width: 700px;
+    max-width: 640px;
     margin: 0 auto;
-    line-height: 1.7;
+    line-height: 1.75;
 }
 
 /* ── Cards ── */

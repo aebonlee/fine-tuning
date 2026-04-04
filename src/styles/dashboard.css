@@ -3,22 +3,25 @@
    ============================================ */
 
 .dashboard-page {
-    padding: calc(var(--nav-height) + 32px) 0 60px;
+    padding: calc(var(--nav-height) + 40px) 0 60px;
     min-height: 100vh;
     background: var(--bg-light-gray);
 }
 
 /* Welcome */
 .dashboard-welcome {
-    margin-bottom: 40px;
+    margin-bottom: 36px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--border-light);
 }
 .dashboard-welcome h1 {
-    font-size: 28px;
+    font-size: 26px;
     font-weight: 800;
-    margin-bottom: 8px;
+    margin-bottom: 6px;
+    letter-spacing: -0.02em;
 }
 .dashboard-welcome p {
-    font-size: 15px;
+    font-size: 14px;
     color: var(--text-secondary);
 }
 
@@ -27,52 +30,55 @@
     margin-bottom: 40px;
 }
 .quick-access h2 {
-    font-size: 20px;
+    font-size: 16px;
     font-weight: 700;
-    margin-bottom: 20px;
-    color: var(--text-primary);
+    margin-bottom: 16px;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
 }
 .quick-access-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 16px;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 14px;
 }
 .quick-access-card {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 12px;
-    padding: 24px 16px;
+    gap: 10px;
+    padding: 20px 14px;
     background: var(--bg-white);
     border: 1px solid var(--border-light);
-    border-radius: var(--radius-lg);
+    border-radius: var(--radius-md);
     text-decoration: none;
     color: inherit;
     transition: var(--transition-base);
     text-align: center;
 }
 .quick-access-card:hover {
-    border-color: var(--primary-blue-light);
+    border-color: var(--primary-blue);
     box-shadow: var(--shadow-md);
-    transform: translateY(-2px);
+    transform: translateY(-3px);
 }
 .quick-access-icon {
-    width: 48px;
-    height: 48px;
+    width: 44px;
+    height: 44px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 24px;
-    border-radius: var(--radius-md);
+    font-size: 22px;
+    border-radius: var(--radius-sm);
     background: var(--bg-light-gray);
     color: var(--primary-blue);
+    transition: var(--transition-base);
 }
 .quick-access-card:hover .quick-access-icon {
     background: var(--primary-gradient);
     color: var(--text-white);
 }
 .quick-access-label {
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 600;
     color: var(--text-primary);
 }
@@ -80,20 +86,22 @@
 /* Dashboard Grid */
 .dashboard-grid {
     display: grid;
-    grid-template-columns: 2fr 1fr;
-    gap: 24px;
+    grid-template-columns: 5fr 3fr;
+    gap: 20px;
 }
 .dashboard-card {
     background: var(--bg-white);
     border: 1px solid var(--border-light);
-    border-radius: var(--radius-lg);
+    border-radius: var(--radius-md);
     padding: 24px;
 }
 .dashboard-card h3 {
-    font-size: 18px;
+    font-size: 15px;
     font-weight: 700;
     color: var(--text-primary);
-    margin-bottom: 20px;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border-light);
     display: flex;
     align-items: center;
     gap: 8px;
@@ -107,17 +115,17 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 12px 0;
+    padding: 10px 0;
     border-bottom: 1px solid var(--border-light);
 }
 .recent-item:last-child { border-bottom: none; }
 .recent-item-info {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 10px;
 }
 .recent-item-icon {
-    font-size: 20px;
+    font-size: 18px;
 }
 .recent-item-title {
     font-size: 14px;
@@ -129,28 +137,34 @@
     color: var(--text-light);
 }
 .recent-item-type {
-    font-size: 12px;
+    font-size: 11px;
     color: var(--text-light);
+    background: var(--bg-light-gray);
+    padding: 2px 8px;
+    border-radius: var(--radius-full);
 }
 
 /* Usage Stats */
 .usage-stats-list {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 14px;
 }
 .usage-stat-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 10px 14px;
+    background: var(--bg-light-gray);
+    border-radius: var(--radius-sm);
 }
 .usage-stat-label {
-    font-size: 14px;
+    font-size: 13px;
     color: var(--text-secondary);
 }
 .usage-stat-value {
-    font-size: 16px;
-    font-weight: 700;
+    font-size: 20px;
+    font-weight: 800;
     color: var(--primary-blue);
 }
 

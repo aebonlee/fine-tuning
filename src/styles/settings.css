@@ -3,14 +3,17 @@
    ============================================ */
 
 .settings-page {
-    padding: calc(var(--nav-height) + 32px) 0 60px;
+    padding: calc(var(--nav-height) + 40px) 0 60px;
     min-height: 100vh;
     background: var(--bg-light-gray);
 }
 .settings-page h1 {
-    font-size: 28px;
+    font-size: 26px;
     font-weight: 800;
-    margin-bottom: 32px;
+    margin-bottom: 24px;
+    letter-spacing: -0.02em;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border-light);
 }
 .settings-layout {
     display: grid;
