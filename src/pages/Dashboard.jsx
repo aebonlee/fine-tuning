@@ -11,47 +11,61 @@ export default function Dashboard() {
   const displayName = profile?.display_name || user?.user_metadata?.full_name || user?.email?.split('@')[0] || '';
 
   return (
-    <div className="dashboard-page">
+    <div className="ck-page">
       <SEO title={t('nav.dashboard')} path="/dashboard" noindex />
       <div className="container">
-        <div className="dashboard-welcome">
-          <h1>{displayName}{t('dashboard.welcome')}</h1>
-          <p>{language === 'ko' ? 'AI 파인튜닝 학습을 시작하세요.' : 'Start learning AI fine-tuning.'}</p>
-        </div>
-
-        <div className="quick-access">
-          <h2>{language === 'ko' ? '학습 카테고리' : 'Learning Categories'}</h2>
-          <div className="quick-access-grid">
-            {LESSON_CATEGORIES.map(cat => (
-              <Link key={cat.slug} to={`/lessons/${cat.slug}`} className="quick-access-card">
-                <div className="quick-access-icon"><i className={`fa-solid ${cat.icon}`} /></div>
-                <span className="quick-access-label">{language === 'ko' ? cat.nameKo : cat.nameEn}</span>
-              </Link>
-            ))}
+        <div className="ck-content-box">
+          <div className="ck-content-header ck-ch--blue">
+            <i className="fa-solid fa-house" />
+            <div className="ck-ch-text">
+              <h2>{displayName}{t('dashboard.welcome')}</h2>
+              <p>{language === 'ko' ? 'AI 파인튜닝 학습을 시작하세요.' : 'Start learning AI fine-tuning.'}</p>
+            </div>
+          </div>
+          <div className="ck-content-body">
+            <h3 className="quick-access-title">{language === 'ko' ? '학습 카테고리' : 'Learning Categories'}</h3>
+            <div className="quick-access-grid">
+              {LESSON_CATEGORIES.map(cat => (
+                <Link key={cat.slug} to={`/lessons/${cat.slug}`} className="quick-access-card">
+                  <div className="quick-access-icon"><i className={`fa-solid ${cat.icon}`} /></div>
+                  <span className="quick-access-label">{language === 'ko' ? cat.nameKo : cat.nameEn}</span>
+                </Link>
+              ))}
+            </div>
           </div>
         </div>
 
         <div className="dashboard-grid">
-          <div className="dashboard-card">
-            <h3><i className="fa-solid fa-book" />{t('dashboard.recentLessons')}</h3>
-            <div className="dashboard-empty">
-              <div className="dashboard-empty-icon"><i className="fa-solid fa-pen-to-square" /></div>
-              <p>{t('dashboard.noRecent')}</p>
-              <Link to="/lessons" className="btn btn-primary btn-sm" style={{ marginTop: '12px' }}>
-                {t('nav.lessons')}
-              </Link>
+          <div className="ck-content-box">
+            <div className="ck-content-header">
+              <i className="fa-solid fa-book" />
+              <h2>{t('dashboard.recentLessons')}</h2>
+            </div>
+            <div className="ck-content-body">
+              <div className="dashboard-empty">
+                <div className="dashboard-empty-icon"><i className="fa-solid fa-pen-to-square" /></div>
+                <p>{t('dashboard.noRecent')}</p>
+                <Link to="/lessons" className="btn btn-primary btn-sm" style={{ marginTop: '12px' }}>
+                  {t('nav.lessons')}
+                </Link>
+              </div>
             </div>
           </div>
 
-          <div className="dashboard-card">
-            <h3><i className="fa-solid fa-chart-bar" />{t('dashboard.progress')}</h3>
-            <div className="usage-stats-list">
-              {LESSON_CATEGORIES.map(cat => (
-                <div key={cat.slug} className="usage-stat-item">
-                  <span className="usage-stat-label"><i className={`fa-solid ${cat.icon}`} /> {language === 'ko' ? cat.nameKo : cat.nameEn}</span>
-                  <span className="usage-stat-value">0/{cat.lessons.length}</span>
-                </div>
-              ))}
+          <div className="ck-content-box">
+            <div className="ck-content-header ck-ch--green">
+              <i className="fa-solid fa-chart-bar" />
+              <h2>{t('dashboard.progress')}</h2>
+            </div>
+            <div className="ck-content-body">
+              <div className="usage-stats-list">
+                {LESSON_CATEGORIES.map(cat => (
+                  <div key={cat.slug} className="usage-stat-item">
+                    <span className="usage-stat-label"><i className={`fa-solid ${cat.icon}`} /> {language === 'ko' ? cat.nameKo : cat.nameEn}</span>
+                    <span className="usage-stat-value">0/{cat.lessons.length}</span>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>

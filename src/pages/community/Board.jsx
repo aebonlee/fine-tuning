@@ -100,7 +100,7 @@ export default function Board() {
   }
 
   return (
-    <div className="community-page">
+    <div className="ck-page">
       <SEO
         title={language === 'ko' ? '커뮤니티' : 'Community'}
         description={language === 'ko'
@@ -109,76 +109,85 @@ export default function Board() {
         path="/community/board"
       />
       <div className="container">
-        <h1>{t('community.title')}</h1>
-        <p className="page-desc">{t('community.desc')}</p>
-        <div className="board-category-filters">
-          {CATEGORIES.map(cat => (
-            <button
-              key={cat}
-              className={`board-category-filter-btn${categoryFilter === cat ? ' active' : ''}`}
-              onClick={() => { setCategoryFilter(cat); setPage(1); }}
-            >
-              {t(`community.category${cat.charAt(0).toUpperCase() + cat.slice(1)}`)}
-            </button>
-          ))}
-        </div>
-
-        <div className="board-filters">
-          <div className="board-search">
-            <span className="search-icon"><i className="fa-solid fa-search" /></span>
-            <input
-              type="text"
-              placeholder={t('community.search')}
-              value={search}
-              onChange={e => { setSearch(e.target.value); setPage(1); }}
-            />
+        <div className="ck-content-box">
+          <div className="ck-content-header ck-ch--blue">
+            <i className="fa-solid fa-users" />
+            <div className="ck-ch-text">
+              <h2>{t('community.title')}</h2>
+              <p>{t('community.desc')}</p>
+            </div>
           </div>
-          {isLoggedIn && (
-            <Link to="/community/board/write" className="board-write-btn">
-              <i className="fa-solid fa-pen" /> {t('community.write')}
-            </Link>
-          )}
-        </div>
+          <div className="ck-content-body">
+            <div className="board-category-filters">
+              {CATEGORIES.map(cat => (
+                <button
+                  key={cat}
+                  className={`board-category-filter-btn${categoryFilter === cat ? ' active' : ''}`}
+                  onClick={() => { setCategoryFilter(cat); setPage(1); }}
+                >
+                  {t(`community.category${cat.charAt(0).toUpperCase() + cat.slice(1)}`)}
+                </button>
+              ))}
+            </div>
 
-        {loading ? (
-          <div className="loading-page"><div className="loading-spinner" /></div>
-        ) : posts.length > 0 ? (
-          <div className="board-list">
-            {posts.map(post => {
-              const cat = post.category || '';
-              const catLabel = cat ? t(`community.category${cat.charAt(0).toUpperCase() + cat.slice(1)}`) : '';
-              return (
-                <Link key={post.id} to={`/community/board/${post.id}`} className="board-card">
-                  <div>
-                    <div className="board-card-title">
-                      {cat && (
-                        <span className={`board-category-badge ${CATEGORY_CLASSES[cat] || ''}`}>
-                          {catLabel}
-                        </span>
-                      )}
-                      {post.title}
-                    </div>
-                    <div className="board-card-meta">
-                      <span>{post.author_name || 'Anonymous'}</span>
-                      <span>{new Date(post.created_at).toLocaleDateString()}</span>
-                    </div>
-                  </div>
-                  <div className="board-card-stats">
-                    <span><i className="fa-solid fa-eye" /> {post.views || 0}</span>
-                    <span><i className="fa-solid fa-comment" /> {post.comment_count || 0}</span>
-                  </div>
+            <div className="board-filters">
+              <div className="board-search">
+                <span className="search-icon"><i className="fa-solid fa-search" /></span>
+                <input
+                  type="text"
+                  placeholder={t('community.search')}
+                  value={search}
+                  onChange={e => { setSearch(e.target.value); setPage(1); }}
+                />
+              </div>
+              {isLoggedIn && (
+                <Link to="/community/board/write" className="board-write-btn">
+                  <i className="fa-solid fa-pen" /> {t('community.write')}
                 </Link>
-              );
-            })}
-          </div>
-        ) : (
-          <div className="board-empty">
-            <div className="board-empty-icon"><i className="fa-solid fa-comments" /></div>
-            <p>{language === 'ko' ? '게시글이 없습니다.' : 'No posts yet.'}</p>
-          </div>
-        )}
+              )}
+            </div>
 
-        <Pagination page={page} total={total} onPageChange={setPage} />
+            {loading ? (
+              <div className="loading-page"><div className="loading-spinner" /></div>
+            ) : posts.length > 0 ? (
+              <div className="board-list">
+                {posts.map(post => {
+                  const cat = post.category || '';
+                  const catLabel = cat ? t(`community.category${cat.charAt(0).toUpperCase() + cat.slice(1)}`) : '';
+                  return (
+                    <Link key={post.id} to={`/community/board/${post.id}`} className="board-card">
+                      <div>
+                        <div className="board-card-title">
+                          {cat && (
+                            <span className={`board-category-badge ${CATEGORY_CLASSES[cat] || ''}`}>
+                              {catLabel}
+                            </span>
+                          )}
+                          {post.title}
+                        </div>
+                        <div className="board-card-meta">
+                          <span>{post.author_name || 'Anonymous'}</span>
+                          <span>{new Date(post.created_at).toLocaleDateString()}</span>
+                        </div>
+                      </div>
+                      <div className="board-card-stats">
+                        <span><i className="fa-solid fa-eye" /> {post.views || 0}</span>
+                        <span><i className="fa-solid fa-comment" /> {post.comment_count || 0}</span>
+                      </div>
+                    </Link>
+                  );
+                })}
+              </div>
+            ) : (
+              <div className="board-empty">
+                <div className="board-empty-icon"><i className="fa-solid fa-comments" /></div>
+                <p>{language === 'ko' ? '게시글이 없습니다.' : 'No posts yet.'}</p>
+              </div>
+            )}
+
+            <Pagination page={page} total={total} onPageChange={setPage} />
+          </div>
+        </div>
       </div>
     </div>
   );

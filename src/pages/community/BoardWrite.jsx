@@ -98,45 +98,51 @@ export default function BoardWrite() {
   if (loadingPost) return <div className="loading-page" role="status" aria-label="Loading"><div className="loading-spinner" /></div>;
 
   return (
-    <div className="board-write-page">
+    <div className="ck-page">
       <div className="container">
-        <form className="board-write-form" onSubmit={handleSubmit}>
-          <h1>{editId ? t('community.editPost') : t('community.writeTitle')}</h1>
+        <div className="ck-content-box board-write-form">
+          <div className="ck-content-header ck-ch--blue">
+            <i className="fa-solid fa-pen" />
+            <h2>{editId ? t('community.editPost') : t('community.writeTitle')}</h2>
+          </div>
+          <div className="ck-content-body">
+            <form onSubmit={handleSubmit}>
+              <div className="form-group">
+                <label htmlFor="post-category" className="form-label">{t('community.category')}</label>
+                <select
+                  id="post-category"
+                  className="board-category-select"
+                  value={category}
+                  onChange={e => setCategory(e.target.value)}
+                >
+                  {CATEGORIES.map(cat => (
+                    <option key={cat} value={cat}>
+                      {t(`community.category${cat.charAt(0).toUpperCase() + cat.slice(1)}`)}
+                    </option>
+                  ))}
+                </select>
+              </div>
 
-          <div className="form-group">
-            <label htmlFor="post-category" className="form-label">{t('community.category')}</label>
-            <select
-              id="post-category"
-              className="board-category-select"
-              value={category}
-              onChange={e => setCategory(e.target.value)}
-            >
-              {CATEGORIES.map(cat => (
-                <option key={cat} value={cat}>
-                  {t(`community.category${cat.charAt(0).toUpperCase() + cat.slice(1)}`)}
-                </option>
-              ))}
-            </select>
-          </div>
+              <div className="form-group">
+                <label htmlFor="post-title" className="form-label">{t('community.titleLabel')}</label>
+                <input id="post-title" className="form-input" value={title} onChange={handleTitleChange} required />
+              </div>
+              <div className="form-group">
+                <label htmlFor="post-content" className="form-label">{t('community.contentLabel')}</label>
+                <textarea id="post-content" className="form-textarea" rows="12" value={content} onChange={handleContentChange} required />
+              </div>
 
-          <div className="form-group">
-            <label htmlFor="post-title" className="form-label">{t('community.titleLabel')}</label>
-            <input id="post-title" className="form-input" value={title} onChange={handleTitleChange} required />
+              <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end' }}>
+                <button type="button" className="btn btn-secondary btn-sm" onClick={handleCancel}>
+                  {t('community.cancel')}
+                </button>
+                <button type="submit" className="btn btn-primary btn-sm" disabled={loading}>
+                  {loading ? <span className="loading-spinner" style={{ width: 20, height: 20, borderWidth: 2 }} /> : editId ? t('community.edit') : t('community.submit')}
+                </button>
+              </div>
+            </form>
           </div>
-          <div className="form-group">
-            <label htmlFor="post-content" className="form-label">{t('community.contentLabel')}</label>
-            <textarea id="post-content" className="form-textarea" rows="12" value={content} onChange={handleContentChange} required />
-          </div>
-
-          <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end' }}>
-            <button type="button" className="btn btn-secondary btn-sm" onClick={handleCancel}>
-              {t('community.cancel')}
-            </button>
-            <button type="submit" className="btn btn-primary btn-sm" disabled={loading}>
-              {loading ? <span className="loading-spinner" style={{ width: 20, height: 20, borderWidth: 2 }} /> : editId ? t('community.edit') : t('community.submit')}
-            </button>
-          </div>
-        </form>
+        </div>
       </div>
     </div>
   );

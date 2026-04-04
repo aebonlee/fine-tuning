@@ -125,7 +125,7 @@ export default function BoardDetail() {
 
   if (loading) return <div className="loading-page" role="status" aria-label="Loading"><div className="loading-spinner" /></div>;
   if (!post) return (
-    <div className="board-detail-page">
+    <div className="ck-page">
       <div className="container">
         <div className="board-empty" role="alert">
           <div className="board-empty-icon">📄</div>
@@ -143,7 +143,7 @@ export default function BoardDetail() {
   const categoryLabel = categoryKey ? t(`community.category${categoryKey.charAt(0).toUpperCase() + categoryKey.slice(1)}`) : '';
 
   return (
-    <div className="board-detail-page">
+    <div className="ck-page">
       <SEO
         title={post.title}
         description={post.content?.replace(/<[^>]*>/g, '').slice(0, 160)}
@@ -155,23 +155,24 @@ export default function BoardDetail() {
         <Link to="/community/board" className="btn-link" style={{ marginBottom: '20px', display: 'inline-flex' }}>
           &larr; {t('community.backToList')}
         </Link>
-        <article className="board-detail">
-          <div className="board-detail-header">
-            <h1 className="board-detail-title">
-              {categoryKey && (
-                <span className={`board-category-badge ${CATEGORY_CLASSES[categoryKey] || ''}`}>
-                  {categoryLabel}
-                </span>
-              )}
-              {post.title}
-            </h1>
-            <div className="board-detail-meta">
-              <span>{post.author_name || t('community.anonymous')}</span>
-              <span>{new Date(post.created_at).toLocaleDateString()}</span>
-              <span><i className="fa-solid fa-eye" aria-hidden="true" /> {post.views || 0}</span>
+        <article className="ck-content-box">
+          <div className="ck-content-header ck-ch--blue">
+            <i className="fa-solid fa-file-lines" />
+            <div className="ck-ch-text">
+              <h2>
+                {categoryKey && (
+                  <span className={`board-category-badge ${CATEGORY_CLASSES[categoryKey] || ''}`}>
+                    {categoryLabel}
+                  </span>
+                )}{' '}
+                {post.title}
+              </h2>
+              <p>
+                {post.author_name || t('community.anonymous')} · {new Date(post.created_at).toLocaleDateString()} · <i className="fa-solid fa-eye" aria-hidden="true" /> {post.views || 0}
+              </p>
             </div>
           </div>
-          <div className="board-detail-body board-detail-content">{post.content}</div>
+          <div className="ck-content-body board-detail-content">{post.content}</div>
 
           {isOwner && (
             <div className="board-actions">

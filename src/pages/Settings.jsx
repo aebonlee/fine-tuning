@@ -21,58 +21,65 @@ export default function Settings() {
   }
 
   const tabs = [
-    { id: 'profile', label: t('settings.profile') },
+    { id: 'profile', icon: 'fa-user', label: t('settings.profile') },
   ];
 
   return (
-    <div className="settings-page">
+    <div className="ck-page">
       <div className="container">
-        <h1>{t('settings.title')}</h1>
-        <div className="settings-layout">
-          <nav>
-            <ul className="settings-nav">
-              {tabs.map(tab => (
-                <li key={tab.id}>
-                  <button
-                    className={`settings-nav-item ${activeTab === tab.id ? 'active' : ''}`}
-                    onClick={() => setActiveTab(tab.id)}
-                  >
-                    {tab.label}
-                  </button>
-                </li>
-              ))}
-            </ul>
-          </nav>
+        <div className="ck-content-box">
+          <div className="ck-content-header ck-ch--blue">
+            <i className="fa-solid fa-gear" />
+            <h2>{t('settings.title')}</h2>
+          </div>
+          <div className="ck-content-body">
+            <div className="settings-layout">
+              <nav>
+                <ul className="settings-nav">
+                  {tabs.map(tab => (
+                    <li key={tab.id}>
+                      <button
+                        className={`settings-nav-item ${activeTab === tab.id ? 'active' : ''}`}
+                        onClick={() => setActiveTab(tab.id)}
+                      >
+                        <i className={`fa-solid ${tab.icon}`} /> {tab.label}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </nav>
 
-          <div>
-            {activeTab === 'profile' && (
-              <div className="settings-card">
-                <h2>{t('settings.profile')}</h2>
-                <p className="settings-card-desc">{t('settings.profileDesc')}</p>
-                <div className="profile-avatar-section">
-                  <div className="profile-avatar">
-                    {profile?.avatar_url ? <img src={profile.avatar_url} alt="" /> : (displayName || 'U').charAt(0).toUpperCase()}
+              <div>
+                {activeTab === 'profile' && (
+                  <div className="settings-card">
+                    <h2>{t('settings.profile')}</h2>
+                    <p className="settings-card-desc">{t('settings.profileDesc')}</p>
+                    <div className="profile-avatar-section">
+                      <div className="profile-avatar">
+                        {profile?.avatar_url ? <img src={profile.avatar_url} alt="" /> : (displayName || 'U').charAt(0).toUpperCase()}
+                      </div>
+                      <div>
+                        <div style={{ fontWeight: 600, marginBottom: '4px' }}>{displayName || 'User'}</div>
+                        <div style={{ fontSize: '14px', color: 'var(--text-light)' }}>{user?.email}</div>
+                      </div>
+                    </div>
+                    <div className="form-group">
+                      <label className="form-label">{t('auth.name')}</label>
+                      <input className="form-input" value={displayName} onChange={e => setDisplayName(e.target.value)} />
+                    </div>
+                    <div className="form-group">
+                      <label className="form-label">{t('auth.email')}</label>
+                      <input className="form-input" value={user?.email || ''} disabled />
+                    </div>
+                    <div className="settings-btn-group">
+                      <button className="btn btn-primary btn-sm" onClick={handleSaveProfile} disabled={saving}>
+                        {saving ? '...' : t('settings.save')}
+                      </button>
+                    </div>
                   </div>
-                  <div>
-                    <div style={{ fontWeight: 600, marginBottom: '4px' }}>{displayName || 'User'}</div>
-                    <div style={{ fontSize: '14px', color: 'var(--text-light)' }}>{user?.email}</div>
-                  </div>
-                </div>
-                <div className="form-group">
-                  <label className="form-label">{t('auth.name')}</label>
-                  <input className="form-input" value={displayName} onChange={e => setDisplayName(e.target.value)} />
-                </div>
-                <div className="form-group">
-                  <label className="form-label">{t('auth.email')}</label>
-                  <input className="form-input" value={user?.email || ''} disabled />
-                </div>
-                <div className="settings-btn-group">
-                  <button className="btn btn-primary btn-sm" onClick={handleSaveProfile} disabled={saving}>
-                    {saving ? '...' : t('settings.save')}
-                  </button>
-                </div>
+                )}
               </div>
-            )}
+            </div>
           </div>
         </div>
       </div>
