@@ -549,6 +549,12 @@
   font-size: 0.72rem;
 }
 
+/* Prevent grid blowout from long code lines */
+.ck-main {
+  min-width: 0;
+  overflow: hidden;
+}
+
 /* Override lessons-page inside ck-main */
 .ck-main .lessons-page {
   padding: 0;
