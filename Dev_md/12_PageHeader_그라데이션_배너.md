@@ -15,18 +15,34 @@
 - 72px 글래스모피즘 아이콘, pill 브레드크럼
 - 애니메이션 orb 장식 + 그리드 라인 패턴
 
-### v3 - EIP 스타일 (현재)
+### v3 - EIP 스타일
 - **`d:\dreamit-web\eip` 프로젝트 디자인 패턴 적용**
 - 좌측 정렬 flex row 레이아웃 (아이콘 + 텍스트)
 - 컴팩트 패딩: `calc(var(--nav-height) + 36px) 0 32px`
 - 장식 요소 없음 (orb, grid-lines, 애니메이션 모두 제거)
 - `var(--hero-bg)` 배경 유지
 
-## 디자인 특징 (v3 - EIP Style)
+### v4 - Teaching 스타일 (현재)
+- **`d:\dreamit-web\teaching` 프로젝트 디자인 패턴 적용**
+- **일반 페이지(Dashboard, Settings, Board, BoardWrite, BoardDetail)에서 그라데이션 PageHeader 제거**
+- Teaching 프로젝트 분석 결과: 일반 페이지는 단순 텍스트 헤더(`<h1>` 28px + `<p>` 설명), AI 도구 페이지만 그라데이션 헤더 사용
+- **학습 페이지(LessonCategories, LessonList)만 그라데이션 PageHeader 유지** (Teaching의 AI 도구 페이지에 해당)
+- 각 페이지에 `padding: calc(var(--nav-height) + 32px) 0 60px` 복원
+
+## 디자인 특징 (v4 - Teaching Style)
+
+### 일반 페이지 (그라데이션 헤더 없음)
+- **Dashboard**: `.dashboard-welcome` div 내 `<h1>` 28px + `<p>` 설명
+- **Settings**: 단순 `<h1>` 28px, font-weight 800
+- **Board**: `<h1>` + `.page-desc` 설명
+- **BoardWrite**: `.board-write-form` 내부 `<h1>` 28px
+- **BoardDetail**: `.board-detail-header` 내부 제목 + 메타 정보, 목록으로 돌아가기 링크
+
+### 학습 페이지 (그라데이션 PageHeader 유지)
 - **좌측 정렬 Flex 레이아웃**: 아이콘 + 제목/설명 가로 배치
 - **hero-bg 그라데이션**: `var(--hero-bg)` 사용
 - **글래스모피즘 아이콘**: 64px, border-radius 16px, `backdrop-filter: blur(8px)`, box-shadow
-- **심플 브레드크럼**: `/` 구분자, 13px 텍스트 (pill 스타일 아님)
+- **심플 브레드크럼**: `/` 구분자, 13px 텍스트
 - **다크모드**: `var(--hero-bg-dark)` 사용
 
 ## 파일 구조
@@ -46,17 +62,24 @@
 - 반응형: 768px/480px 브레이크포인트
 - 다크모드: `[data-theme="dark"] .page-header` → `var(--hero-bg-dark)`
 
-## 적용 페이지 (7개)
+## 적용 페이지
+
+### 그라데이션 PageHeader 적용 (2개 - 학습 페이지만)
 
 | 페이지 | 아이콘 | 제목 | 설명 |
 |--------|--------|------|------|
-| Dashboard | `fa-gauge-high` | 환영 메시지 | AI 파인튜닝 학습 시작 |
-| Settings | `fa-gear` | 설정 | 프로필 설명 |
-| Board | `fa-comments` | 커뮤니티 | 커뮤니티 설명 |
-| BoardWrite | `fa-pen-to-square` | 수정/작성 | - |
-| BoardDetail | `fa-file-alt` | 게시글 제목 | - |
 | LessonCategories | `fa-graduation-cap` | 학습 카테고리 | 카테고리 설명 |
 | LessonList | 카테고리 아이콘 | 카테고리명 | 카테고리 설명 + 레벨 뱃지 |
+
+### 단순 텍스트 헤더 (5개 - 일반 페이지)
+
+| 페이지 | 헤더 스타일 |
+|--------|------------|
+| Dashboard | `.dashboard-welcome` div: h1 환영 메시지 + p 설명 |
+| Settings | 단순 h1 "설정" |
+| Board | h1 "커뮤니티" + `.page-desc` 설명 |
+| BoardWrite | `.board-write-form` 내부 h1 "글쓰기/수정" |
+| BoardDetail | `.board-detail-header` 내부 제목 + 메타 |
 
 ## 커뮤니티 사이트 점검 수정사항
 
@@ -94,6 +117,24 @@
 |---|------|------|
 | 1 | `src/components/PageHeader.jsx` | EIP 스타일 좌측정렬 재설계 |
 | 2 | `src/styles/page-header.css` | 전면 재작성 (컴팩트, 장식 제거) |
+
+### v4 Teaching 스타일 적용 (8개)
+| # | 파일 | 작업 |
+|---|------|------|
+| 1 | `src/pages/Dashboard.jsx` | PageHeader 제거 → `.dashboard-welcome` 복원 |
+| 2 | `src/pages/Settings.jsx` | PageHeader 제거 → 단순 `<h1>` 복원 |
+| 3 | `src/pages/community/Board.jsx` | PageHeader 제거 → `<h1>` + `.page-desc` 복원 |
+| 4 | `src/pages/community/BoardWrite.jsx` | PageHeader 제거 → form 내부 `<h1>` 복원 |
+| 5 | `src/pages/community/BoardDetail.jsx` | PageHeader 제거 → 제목/메타 `.board-detail-header` 복원, 뒤로가기 링크 추가 |
+| 6 | `src/styles/dashboard.css` | nav-height padding 복원, `.dashboard-welcome` 스타일 복원 |
+| 7 | `src/styles/settings.css` | nav-height padding 복원, h1 스타일 복원 |
+| 8 | `src/styles/community.css` | nav-height padding 복원, h1/page-desc 스타일 복원 |
+
+**변경하지 않은 파일**:
+- `src/pages/lessons/LessonCategories.jsx` - 그라데이션 PageHeader 유지
+- `src/pages/lessons/LessonList.jsx` - 그라데이션 PageHeader 유지
+- `src/styles/page-header.css` - EIP 스타일 유지 (학습 페이지용)
+- `src/components/PageHeader.jsx` - 변경 없음 (학습 페이지용)
 
 ## 테마/다크모드 호환성
 - 5가지 색상 테마 모두 `var(--hero-bg)` / `var(--hero-bg-dark)` CSS 변수 사용하여 자동 호환
