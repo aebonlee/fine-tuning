@@ -5,7 +5,6 @@ import { useLanguage } from '../../contexts/LanguageContext';
 import { useToast } from '../../contexts/ToastContext';
 import { supabase } from '../../utils/supabase';
 import SEO from '../../components/SEO';
-import PageHeader from '../../components/PageHeader';
 
 const CATEGORY_CLASSES = {
   notice: 'board-category-notice',
@@ -152,24 +151,21 @@ export default function BoardDetail() {
         type="article"
         noindex
       />
-      <PageHeader
-        icon="fa-file-alt"
-        title={post.title}
-        breadcrumbs={[
-          { label: t('nav.home'), to: '/' },
-          { label: t('nav.community'), to: '/community/board' },
-          { label: post.title },
-        ]}
-      />
       <div className="container">
+        <Link to="/community/board" className="btn-link" style={{ marginBottom: '20px', display: 'inline-flex' }}>
+          &larr; {t('community.backToList')}
+        </Link>
         <article className="board-detail">
           <div className="board-detail-header">
-            <div className="board-detail-meta">
+            <h1 className="board-detail-title">
               {categoryKey && (
                 <span className={`board-category-badge ${CATEGORY_CLASSES[categoryKey] || ''}`}>
                   {categoryLabel}
                 </span>
               )}
+              {post.title}
+            </h1>
+            <div className="board-detail-meta">
               <span>{post.author_name || t('community.anonymous')}</span>
               <span>{new Date(post.created_at).toLocaleDateString()}</span>
               <span><i className="fa-solid fa-eye" aria-hidden="true" /> {post.views || 0}</span>

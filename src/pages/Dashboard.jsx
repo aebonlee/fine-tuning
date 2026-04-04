@@ -3,7 +3,6 @@ import { useAuth } from '../contexts/AuthContext';
 import { useLanguage } from '../contexts/LanguageContext';
 import { LESSON_CATEGORIES } from '../config/lessons';
 import SEO from '../components/SEO';
-import PageHeader from '../components/PageHeader';
 
 export default function Dashboard() {
   const { user, profile } = useAuth();
@@ -14,16 +13,11 @@ export default function Dashboard() {
   return (
     <div className="dashboard-page">
       <SEO title={t('nav.dashboard')} path="/dashboard" noindex />
-      <PageHeader
-        icon="fa-gauge-high"
-        title={`${displayName}${t('dashboard.welcome')}`}
-        description={language === 'ko' ? 'AI 파인튜닝 학습을 시작하세요.' : 'Start learning AI fine-tuning.'}
-        breadcrumbs={[
-          { label: t('nav.home'), to: '/' },
-          { label: t('nav.dashboard') },
-        ]}
-      />
       <div className="container">
+        <div className="dashboard-welcome">
+          <h1>{displayName}{t('dashboard.welcome')}</h1>
+          <p>{language === 'ko' ? 'AI 파인튜닝 학습을 시작하세요.' : 'Start learning AI fine-tuning.'}</p>
+        </div>
 
         <div className="quick-access">
           <h2>{language === 'ko' ? '학습 카테고리' : 'Learning Categories'}</h2>
