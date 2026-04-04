@@ -3,7 +3,7 @@ import { SITE_CONFIG } from '../config/site';
 
 const DEFAULT_OG_IMAGE = `${SITE_CONFIG.url}/og/default.png`;
 
-export default function SEO({ title, description, path, ogImage, type = 'website', noindex = false, jsonLd }) {
+export default function SEO({ title, description, path, ogImage, type = 'website', noindex = false, jsonLd }: { title?: string; description?: string; path?: string; ogImage?: string; type?: string; noindex?: boolean; jsonLd?: any }) {
   const fullTitle = title ? `${title} | ${SITE_CONFIG.name}` : `${SITE_CONFIG.name} - ${SITE_CONFIG.description}`;
   const fullUrl = path ? `${SITE_CONFIG.url}${path}` : SITE_CONFIG.url;
   const desc = description || SITE_CONFIG.description;

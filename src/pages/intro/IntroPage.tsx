@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback } from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { LESSON_CATEGORIES } from '../../config/lessons';
@@ -179,7 +179,7 @@ function RoadmapSection({ language }) {
               </div>
               <div className="roadmap-cards">
                 {lv.categories.map(cat => (
-                  <Link key={cat.slug} to={`/lessons/${cat.slug}`} className="roadmap-card" style={{ '--roadmap-color': lv.color }}>
+                  <Link key={cat.slug} to={`/lessons/${cat.slug}`} className="roadmap-card" style={{ '--roadmap-color': lv.color } as React.CSSProperties}>
                     <div className="roadmap-card-icon" style={{ background: `${lv.color}14`, color: lv.color }}>
                       <i className={`fa-solid ${cat.icon}`} />
                     </div>

@@ -129,7 +129,7 @@ export default function BoardWrite() {
               </div>
               <div className="form-group">
                 <label htmlFor="post-content" className="form-label">{t('community.contentLabel')}</label>
-                <textarea id="post-content" className="form-textarea" rows="12" value={content} onChange={handleContentChange} required />
+                <textarea id="post-content" className="form-textarea" rows={12} value={content} onChange={handleContentChange} required />
               </div>
 
               <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end' }}>

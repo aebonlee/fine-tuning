@@ -9,7 +9,7 @@ import SEO from '../../components/SEO';
 export default function LessonDetail() {
   const { categorySlug, lessonSlug } = useParams();
   const { language, t } = useLanguage();
-  const { setToc } = useOutletContext();
+  const { setToc } = useOutletContext<any>();
   const [lessonData, setLessonData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
@@ -150,7 +150,7 @@ export default function LessonDetail() {
                   pre: ({ children, ...props }) => {
                     const codeText = (() => {
                       try {
-                        const codeEl = children?.props;
+                        const codeEl = (children as any)?.props;
                         return codeEl?.children || '';
                       } catch { return ''; }
                     })();

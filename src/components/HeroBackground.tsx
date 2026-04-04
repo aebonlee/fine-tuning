@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import React, { useMemo } from 'react';
 
 function Particles() {
   const particles = useMemo(() =>
@@ -37,7 +37,7 @@ function Particles() {
             '--x3': `${p.x3}px`,
             '--y3': `${p.y3}px`,
             animationDelay: `${p.delay}s`,
-          }}
+          } as React.CSSProperties}
         />
       ))}
     </div>
@@ -68,7 +68,7 @@ function NetworkNodes() {
             '--dy': `${n.dy}px`,
             '--delay': `${n.delay}s`,
             animationDelay: `${n.delay}s`,
-          }}
+          } as React.CSSProperties}
         />
       ))}
     </div>
@@ -97,7 +97,7 @@ function RisingOrbs() {
             height: o.size,
             '--delay': `${o.delay}s`,
             animationDelay: `${o.delay}s`,
-          }}
+          } as React.CSSProperties}
         />
       ))}
     </div>
@@ -130,14 +130,14 @@ function GeometricShapes() {
             height: s.size,
             '--delay': `${s.delay}s`,
             animationDelay: `${s.delay}s`,
-          }}
+          } as React.CSSProperties}
         />
       ))}
     </div>
   );
 }
 
-export default function HeroBackground({ type }) {
+export default function HeroBackground({ type }: { type: string }) {
   switch (type) {
     case 'particles': return <Particles />;
     case 'network': return <NetworkNodes />;

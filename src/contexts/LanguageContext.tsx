@@ -1,10 +1,16 @@
-import { createContext, useContext, useState, useCallback } from 'react';
+import { createContext, useContext, useState, useCallback, ReactNode } from 'react';
 import translations from '../utils/translations';
 import { getCookie, setCookie } from '../utils/cookies';
 
-const LanguageContext = createContext();
+interface LanguageContextType {
+  language: string;
+  toggleLanguage: () => void;
+  t: (key: string) => any;
+}
 
-export function LanguageProvider({ children }) {
+const LanguageContext = createContext<LanguageContextType | null>(null);
+
+export function LanguageProvider({ children }: { children: ReactNode }) {
   const [language, setLanguageState] = useState(() => getCookie('language') || 'ko');
 
   const toggleLanguage = useCallback(() => {
@@ -15,9 +21,9 @@ export function LanguageProvider({ children }) {
     });
   }, []);
 
-  const t = useCallback((key) => {
+  const t = useCallback((key: string) => {
     const keys = key.split('.');
-    let value = translations[language];
+    let value: any = (translations as any)[language];
     for (const k of keys) {
       value = value?.[k];
     }

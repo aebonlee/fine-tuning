@@ -1,13 +1,29 @@
-import { createContext, useContext, useState, useCallback } from 'react';
+import { createContext, useContext, useState, useCallback, ReactNode } from 'react';
 
-const ToastContext = createContext();
+interface Toast {
+  id: number;
+  message: string;
+  type: string;
+}
+
+interface ToastContextType {
+  toasts: Toast[];
+  addToast: (message: string, type?: string, duration?: number) => void;
+  removeToast: (id: number) => void;
+  success: (msg: string) => void;
+  error: (msg: string) => void;
+  warning: (msg: string) => void;
+  info: (msg: string) => void;
+}
+
+const ToastContext = createContext<ToastContextType | null>(null);
 
 let toastId = 0;
 
-export function ToastProvider({ children }) {
-  const [toasts, setToasts] = useState([]);
+export function ToastProvider({ children }: { children: ReactNode }) {
+  const [toasts, setToasts] = useState<Toast[]>([]);
 
-  const addToast = useCallback((message, type = 'info', duration = 4000) => {
+  const addToast = useCallback((message: string, type = 'info', duration = 4000) => {
     const id = ++toastId;
     setToasts(prev => [...prev, { id, message, type }]);
     setTimeout(() => {
@@ -15,14 +31,14 @@ export function ToastProvider({ children }) {
     }, duration);
   }, []);
 
-  const removeToast = useCallback((id) => {
+  const removeToast = useCallback((id: number) => {
     setToasts(prev => prev.filter(t => t.id !== id));
   }, []);
 
-  const success = useCallback((msg) => addToast(msg, 'success'), [addToast]);
-  const error = useCallback((msg) => addToast(msg, 'error'), [addToast]);
-  const warning = useCallback((msg) => addToast(msg, 'warning'), [addToast]);
-  const info = useCallback((msg) => addToast(msg, 'info'), [addToast]);
+  const success = useCallback((msg: string) => addToast(msg, 'success'), [addToast]);
+  const error = useCallback((msg: string) => addToast(msg, 'error'), [addToast]);
+  const warning = useCallback((msg: string) => addToast(msg, 'warning'), [addToast]);
+  const info = useCallback((msg: string) => addToast(msg, 'info'), [addToast]);
 
   return (
     <ToastContext.Provider value={{ toasts, addToast, removeToast, success, error, warning, info }}>
