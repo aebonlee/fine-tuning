@@ -5,6 +5,7 @@ import { useLanguage } from '../../contexts/LanguageContext';
 import { useToast } from '../../contexts/ToastContext';
 import { supabase } from '../../utils/supabase';
 import SEO from '../../components/SEO';
+import PageHeader from '../../components/PageHeader';
 
 const CATEGORY_CLASSES = {
   notice: 'board-category-notice',
@@ -151,10 +152,16 @@ export default function BoardDetail() {
         type="article"
         noindex
       />
+      <PageHeader
+        icon="fa-file-alt"
+        title={post.title}
+        breadcrumbs={[
+          { label: t('nav.home'), to: '/' },
+          { label: t('nav.community'), to: '/community/board' },
+          { label: post.title },
+        ]}
+      />
       <div className="container">
-        <Link to="/community/board" className="btn-link" style={{ marginBottom: '20px', display: 'inline-flex' }}>
-          &larr; {t('community.backToList')}
-        </Link>
         <article className="board-detail">
           <div className="board-detail-header">
             <h1 className="board-detail-title">

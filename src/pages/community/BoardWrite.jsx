@@ -4,6 +4,7 @@ import { useAuth } from '../../contexts/AuthContext';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { useToast } from '../../contexts/ToastContext';
 import { supabase } from '../../utils/supabase';
+import PageHeader from '../../components/PageHeader';
 
 const CATEGORIES = ['notice', 'tip', 'question', 'free', 'showcase'];
 
@@ -99,9 +100,17 @@ export default function BoardWrite() {
 
   return (
     <div className="board-write-page">
+      <PageHeader
+        icon="fa-pen-to-square"
+        title={editId ? t('community.editPost') : t('community.writeTitle')}
+        breadcrumbs={[
+          { label: t('nav.home'), to: '/' },
+          { label: t('nav.community'), to: '/community/board' },
+          { label: editId ? t('community.editPost') : t('community.writeTitle') },
+        ]}
+      />
       <div className="container">
         <form className="board-write-form" onSubmit={handleSubmit}>
-          <h1>{editId ? t('community.editPost') : t('community.writeTitle')}</h1>
 
           <div className="form-group">
             <label htmlFor="post-category" className="form-label">{t('community.category')}</label>

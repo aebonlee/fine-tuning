@@ -2,6 +2,7 @@ import { Link, useParams } from 'react-router-dom';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { getCategoryBySlug } from '../../config/lessons';
 import SEO from '../../components/SEO';
+import PageHeader from '../../components/PageHeader';
 
 const levelColors = {
   beginner: '#00855A',
@@ -37,25 +38,24 @@ export default function LessonList() {
         description={catDesc}
         path={`/lessons/${categorySlug}`}
       />
+      <PageHeader
+        icon={category.icon}
+        title={catName}
+        description={catDesc}
+        breadcrumbs={[
+          { label: t('nav.home'), to: '/' },
+          { label: t('nav.lessons'), to: '/lessons' },
+          { label: catName },
+        ]}
+      >
+        <span
+          className="lesson-level-badge"
+          style={{ background: 'rgba(255,255,255,0.2)', color: '#fff', marginTop: '12px', display: 'inline-block' }}
+        >
+          {t(`lessons.${category.level}`)}
+        </span>
+      </PageHeader>
       <div className="container">
-        <Link to="/lessons" className="btn-link" style={{ marginBottom: '20px', display: 'inline-flex' }}>
-          &larr; {t('lessons.backToCategories')}
-        </Link>
-
-        <div className="lesson-list-header">
-          <div className="lesson-list-icon"><i className={`fa-solid ${category.icon}`} /></div>
-          <div>
-            <h1>{catName}</h1>
-            <p>{catDesc}</p>
-            <span
-              className="lesson-level-badge"
-              style={{ background: `${levelColors[category.level]}15`, color: levelColors[category.level] }}
-            >
-              {t(`lessons.${category.level}`)}
-            </span>
-          </div>
-        </div>
-
         <div className="lesson-list">
           {category.lessons.map((lesson, i) => (
             <Link

@@ -4,6 +4,7 @@ import { useAuth } from '../../contexts/AuthContext';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { supabase } from '../../utils/supabase';
 import SEO from '../../components/SEO';
+import PageHeader from '../../components/PageHeader';
 
 const PER_PAGE = 15;
 const CATEGORIES = ['all', 'notice', 'tip', 'question', 'free', 'showcase'];
@@ -108,10 +109,16 @@ export default function Board() {
           : 'Ask questions and share experiences in the AI fine-tuning learning community.'}
         path="/community/board"
       />
+      <PageHeader
+        icon="fa-comments"
+        title={t('community.title')}
+        description={t('community.desc')}
+        breadcrumbs={[
+          { label: t('nav.home'), to: '/' },
+          { label: t('nav.community') },
+        ]}
+      />
       <div className="container">
-        <h1>{t('community.title')}</h1>
-        <p className="page-desc">{t('community.desc')}</p>
-
         <div className="board-category-filters">
           {CATEGORIES.map(cat => (
             <button

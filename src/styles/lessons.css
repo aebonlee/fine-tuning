@@ -4,23 +4,7 @@
 
 .lessons-page {
   min-height: calc(100vh - 80px);
-  padding: 100px 0 60px;
-}
-
-.lessons-header {
-  text-align: center;
-  margin-bottom: 48px;
-}
-
-.lessons-header h1 {
-  font-size: 2rem;
-  font-weight: 700;
-  margin-bottom: 12px;
-}
-
-.lessons-header p {
-  color: var(--text-light);
-  font-size: 1.05rem;
+  padding: 32px 0 60px;
 }
 
 /* Category Grid */
@@ -186,35 +170,6 @@
 }
 .category-lesson-item:hover .category-lesson-desc {
   color: rgba(255,255,255,0.7);
-}
-
-/* Lesson List */
-.lesson-list-header {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  margin-bottom: 36px;
-  padding: 24px;
-  background: var(--bg-white);
-  border-radius: 16px;
-  border: 1px solid var(--border-light);
-}
-
-.lesson-list-icon {
-  font-size: 3rem;
-  flex-shrink: 0;
-}
-
-.lesson-list-header h1 {
-  font-size: 1.6rem;
-  font-weight: 700;
-  margin-bottom: 6px;
-}
-
-.lesson-list-header p {
-  color: var(--text-light);
-  font-size: 0.92rem;
-  margin-bottom: 8px;
 }
 
 .lesson-list {
@@ -579,24 +534,10 @@
 
 @media (max-width: 768px) {
   .lessons-page {
-    padding: 80px 0 40px;
-  }
-  .lessons-header {
-    margin-bottom: 28px;
-  }
-  .lessons-header h1 {
-    font-size: 1.5rem;
+    padding: 24px 0 40px;
   }
   .lesson-categories-grid {
     grid-template-columns: 1fr;
-  }
-  .lesson-list-header {
-    flex-direction: column;
-    text-align: center;
-    padding: 18px;
-  }
-  .lesson-list-header h1 {
-    font-size: 1.3rem;
   }
   .lesson-list-item {
     padding: 14px 16px;
@@ -631,13 +572,7 @@
 
 @media (max-width: 480px) {
   .lessons-page {
-    padding: 72px 0 32px;
-  }
-  .lessons-header h1 {
-    font-size: 1.3rem;
-  }
-  .lessons-header p {
-    font-size: 0.85rem;
+    padding: 16px 0 32px;
   }
   .lesson-category-card {
     padding: 16px;
@@ -648,16 +583,6 @@
   }
   .lesson-category-info h3 {
     font-size: 1rem;
-  }
-  .lesson-list-header {
-    padding: 14px;
-    gap: 12px;
-  }
-  .lesson-list-header h1 {
-    font-size: 1.15rem;
-  }
-  .lesson-list-icon {
-    font-size: 2.4rem;
   }
   .lesson-list-item {
     padding: 12px 14px;

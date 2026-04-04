@@ -2,6 +2,7 @@ import { Link, useSearchParams } from 'react-router-dom';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { LESSON_CATEGORIES, MENU_GROUPS, getCategoriesByGroup } from '../../config/lessons';
 import SEO from '../../components/SEO';
+import PageHeader from '../../components/PageHeader';
 
 const levelColors = {
   beginner: '#00855A',
@@ -27,12 +28,16 @@ export default function LessonCategories() {
           : 'Browse 12 categories of AI fine-tuning learning content.'}
         path="/lessons"
       />
+      <PageHeader
+        icon="fa-graduation-cap"
+        title={t('lessons.title')}
+        description={t('lessons.desc')}
+        breadcrumbs={[
+          { label: t('nav.home'), to: '/' },
+          { label: t('nav.lessons') },
+        ]}
+      />
       <div className="container">
-        <div className="lessons-header">
-          <h1>{t('lessons.title')}</h1>
-          <p>{t('lessons.desc')}</p>
-        </div>
-
         {groups.map(group => {
           const categories = getCategoriesByGroup(group.id);
 

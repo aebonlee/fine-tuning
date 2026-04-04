@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { useLanguage } from '../contexts/LanguageContext';
 import { useToast } from '../contexts/ToastContext';
+import PageHeader from '../components/PageHeader';
 
 export default function Settings() {
   const { user, profile, updateProfile } = useAuth();
@@ -26,8 +27,16 @@ export default function Settings() {
 
   return (
     <div className="settings-page">
+      <PageHeader
+        icon="fa-gear"
+        title={t('settings.title')}
+        description={t('settings.profileDesc')}
+        breadcrumbs={[
+          { label: t('nav.home'), to: '/' },
+          { label: t('settings.title') },
+        ]}
+      />
       <div className="container">
-        <h1>{t('settings.title')}</h1>
         <div className="settings-layout">
           <nav>
             <ul className="settings-nav">

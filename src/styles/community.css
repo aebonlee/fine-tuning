@@ -3,20 +3,8 @@
    ============================================ */
 
 .community-page {
-    padding: calc(var(--nav-height) + 32px) 0 60px;
+    padding: 32px 0 60px;
     min-height: 100vh;
-}
-.community-page h1 {
-    font-size: 28px;
-    font-weight: 800;
-    color: var(--text-primary);
-    margin-bottom: 8px;
-    letter-spacing: -0.01em;
-}
-.community-page .page-desc {
-    font-size: 15px;
-    color: var(--text-secondary);
-    margin-bottom: 32px;
 }
 
 /* Board Filters */
@@ -120,7 +108,7 @@
 
 /* Board Detail */
 .board-detail-page {
-    padding: calc(var(--nav-height) + 32px) 0 60px;
+    padding: 32px 0 60px;
     min-height: 100vh;
 }
 .board-detail {
@@ -199,7 +187,7 @@ a.board-nav-item:hover {
 
 /* Board Write */
 .board-write-page {
-    padding: calc(var(--nav-height) + 32px) 0 60px;
+    padding: 32px 0 60px;
 }
 .board-write-form {
     max-width: 800px;
@@ -208,11 +196,6 @@ a.board-nav-item:hover {
     border: 1px solid var(--border-light);
     border-radius: var(--radius-lg);
     padding: 32px;
-}
-.board-write-form h1 {
-    font-size: 24px;
-    font-weight: 700;
-    margin-bottom: 24px;
 }
 
 /* Comments */
