@@ -15,6 +15,7 @@ export const LESSON_CATEGORIES = [
       { slug: 'what-is-dl', titleKo: '딥러닝이란?', titleEn: 'What is Deep Learning?', descKo: '신경망의 기초 이해', descEn: 'Understanding neural network basics' },
       { slug: 'transformer', titleKo: '트랜스포머 아키텍처', titleEn: 'Transformer Architecture', descKo: 'Attention 메커니즘과 트랜스포머', descEn: 'Attention mechanism and transformers' },
       { slug: 'llm-overview', titleKo: 'LLM 개요', titleEn: 'LLM Overview', descKo: '대규모 언어 모델의 이해', descEn: 'Understanding large language models' },
+      { slug: 'what-is-finetuning', titleKo: '파인튜닝이란?', titleEn: 'What is Fine-Tuning?', descKo: '파인튜닝의 정의, 방법론, 활용 사례 (Databricks)', descEn: 'Definition, methods, and use cases of fine-tuning (Databricks)' },
       { slug: 'pretrain-vs-finetune', titleKo: '사전학습 vs 파인튜닝', titleEn: 'Pre-training vs Fine-tuning', descKo: '두 학습 방식의 차이와 활용', descEn: 'Differences and applications of both approaches' },
     ],
   },
