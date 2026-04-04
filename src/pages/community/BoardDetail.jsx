@@ -164,15 +164,12 @@ export default function BoardDetail() {
       <div className="container">
         <article className="board-detail">
           <div className="board-detail-header">
-            <h1 className="board-detail-title">
+            <div className="board-detail-meta">
               {categoryKey && (
                 <span className={`board-category-badge ${CATEGORY_CLASSES[categoryKey] || ''}`}>
                   {categoryLabel}
                 </span>
               )}
-              {post.title}
-            </h1>
-            <div className="board-detail-meta">
               <span>{post.author_name || t('community.anonymous')}</span>
               <span>{new Date(post.created_at).toLocaleDateString()}</span>
               <span><i className="fa-solid fa-eye" aria-hidden="true" /> {post.views || 0}</span>

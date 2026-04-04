@@ -255,7 +255,6 @@
 
 /* Lessons dark */
 [data-theme="dark"] .lesson-category-card,
-[data-theme="dark"] .lesson-list-header,
 [data-theme="dark"] .lesson-list-item,
 [data-theme="dark"] .lesson-nav-btn {
     background: var(--bg-white);

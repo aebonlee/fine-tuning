@@ -50,7 +50,7 @@ export default function LessonList() {
       >
         <span
           className="lesson-level-badge"
-          style={{ background: 'rgba(255,255,255,0.2)', color: '#fff', marginTop: '12px', display: 'inline-block' }}
+          style={{ background: 'rgba(255,255,255,0.15)', color: '#fff', border: '1px solid rgba(255,255,255,0.2)' }}
         >
           {t(`lessons.${category.level}`)}
         </span>
