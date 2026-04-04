@@ -1,36 +1,50 @@
-# PageHeader 히어로 스타일 배너 구현
+# PageHeader 배너 구현
 
 ## 개요
-각 메뉴 페이지에 통일된 상단 히어로 스타일 배너 타이틀을 추가하여 시각적 일관성을 확보했다.
+각 메뉴 페이지에 통일된 상단 배너 타이틀을 추가하여 시각적 일관성을 확보했다.
 기존 각 페이지마다 제각각이던 `<h1>` + `<p>` 헤더를 재사용 가능한 `PageHeader` 컴포넌트로 교체했다.
 
-## 디자인 특징 (v2 - 히어로 스타일)
-- **중앙 정렬 레이아웃**: 제목, 설명, 아이콘 모두 센터 배치
-- **hero-bg 그라데이션**: `var(--hero-bg)` 사용 (홈 히어로와 동일한 배경)
-- **글래스모피즘 아이콘**: 72px 둥근 사각형, `backdrop-filter: blur(8px)`, 반투명 보더
-- **Pill 브레드크럼**: 반투명 배경 + 보더의 뱃지 형태 (히어로의 hero-badge 스타일)
-- **애니메이션 Orb**: 3개의 radial-gradient 원형이 부드럽게 떠다니는 효과
-- **그리드 라인 패턴**: 미세한 격자 배경 (mask-image로 중앙 집중)
+## 디자인 변경 이력
+
+### v1 - 초기 구현 (accent-gradient)
+- `var(--accent-gradient)` 배경 + 좌측 정렬
+- 56px 원형 아이콘, `::before/::after` 장식 원형
+
+### v2 - 히어로 스타일 재설계
+- 중앙 정렬 레이아웃, `var(--hero-bg)` 배경
+- 72px 글래스모피즘 아이콘, pill 브레드크럼
+- 애니메이션 orb 장식 + 그리드 라인 패턴
+
+### v3 - EIP 스타일 (현재)
+- **`d:\dreamit-web\eip` 프로젝트 디자인 패턴 적용**
+- 좌측 정렬 flex row 레이아웃 (아이콘 + 텍스트)
+- 컴팩트 패딩: `calc(var(--nav-height) + 36px) 0 32px`
+- 장식 요소 없음 (orb, grid-lines, 애니메이션 모두 제거)
+- `var(--hero-bg)` 배경 유지
+
+## 디자인 특징 (v3 - EIP Style)
+- **좌측 정렬 Flex 레이아웃**: 아이콘 + 제목/설명 가로 배치
+- **hero-bg 그라데이션**: `var(--hero-bg)` 사용
+- **글래스모피즘 아이콘**: 64px, border-radius 16px, `backdrop-filter: blur(8px)`, box-shadow
+- **심플 브레드크럼**: `/` 구분자, 13px 텍스트 (pill 스타일 아님)
 - **다크모드**: `var(--hero-bg-dark)` 사용
 
 ## 파일 구조
 
 ### `src/components/PageHeader.jsx`
 - Props: `icon`, `title`, `description`, `breadcrumbs` (배열: `{label, to?}`), `children` (선택)
-- 장식 요소: `.page-header-deco` > 3개 orb + grid-lines
-- 브레드크럼: chevron-right 아이콘 구분자 사용
+- 단순한 구조: breadcrumb → flex(icon + text)
+- 장식 요소 없음
 
 ### `src/styles/page-header.css`
-- `.page-header-bg`: `background: var(--hero-bg)`, 넉넉한 패딩
-- `.page-header-inner`: 중앙 정렬, max-width 720px
-- `.page-header-icon`: 72px, border-radius 20px, backdrop-filter blur
-- `.page-header-title`: 36px, font-weight 700
-- `.page-header-desc`: 17px, `rgba(255,255,255,0.8)`, max-width 540px
-- `.page-header-breadcrumb`: pill 스타일, backdrop-filter blur
-- `.page-header-orb`: `@keyframes ph-float` 애니메이션
-- `.page-header-grid-lines`: CSS 그리드 패턴 + mask-image
+- `.page-header`: `background: var(--hero-bg)`, 컴팩트 패딩
+- `.page-header-inner`: `display: flex`, `align-items: center`, `gap: 20px`
+- `.page-header-icon`: 64px, border-radius 16px, glassmorphism + box-shadow
+- `.page-header h1`: 32px, font-weight 800
+- `.page-header p`: 15px, `rgba(255,255,255,0.75)`
+- `.page-header-breadcrumb`: 13px, `rgba(255,255,255,0.5)`, `/` 구분자
 - 반응형: 768px/480px 브레이크포인트
-- `prefers-reduced-motion`: 애니메이션 비활성화
+- 다크모드: `[data-theme="dark"] .page-header` → `var(--hero-bg-dark)`
 
 ## 적용 페이지 (7개)
 
@@ -74,6 +88,12 @@
 | 4 | `src/pages/lessons/LessonList.jsx` | 레벨 뱃지 스타일 조정 |
 | 5 | `src/styles/responsive.css` | 잔존 셀렉터 제거 |
 | 6 | `src/styles/dark-mode.css` | 잔존 셀렉터 제거 |
+
+### v3 EIP 스타일 재설계 (2개)
+| # | 파일 | 작업 |
+|---|------|------|
+| 1 | `src/components/PageHeader.jsx` | EIP 스타일 좌측정렬 재설계 |
+| 2 | `src/styles/page-header.css` | 전면 재작성 (컴팩트, 장식 제거) |
 
 ## 테마/다크모드 호환성
 - 5가지 색상 테마 모두 `var(--hero-bg)` / `var(--hero-bg-dark)` CSS 변수 사용하여 자동 호환
