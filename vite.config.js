@@ -3,7 +3,7 @@ import react from '@vitejs/plugin-react';
 
 export default defineConfig({
   plugins: [react()],
-  base: '/fine-tuning/',
+  base: '/',
   server: {
     port: 5176,
     open: true
