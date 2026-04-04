@@ -9,7 +9,7 @@ const outDir = join(__dirname, '..', 'public', 'og');
 if (!existsSync(outDir)) mkdirSync(outDir, { recursive: true });
 
 const BRAND = 'FINETUNING';
-const URL = 'finetuning.dreamitbiz.com';
+const URL = 'fine-tuning.dreamitbiz.com';
 
 const images = [
   { file: 'default.png', title: 'FineTuning', subtitle: 'AI 파인튜닝 학습 플랫폼', color: '#1B3A6B' },

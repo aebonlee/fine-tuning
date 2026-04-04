@@ -2,7 +2,7 @@ import { supabase } from './supabase';
 
 const REDIRECT_URL = typeof window !== 'undefined'
   ? `${window.location.origin}/`
-  : 'https://finetuning.dreamitbiz.com/';
+  : 'https://fine-tuning.dreamitbiz.com/';
 
 export async function signInWithGoogle() {
   const { data, error } = await supabase.auth.signInWithOAuth({

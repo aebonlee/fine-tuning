@@ -94,8 +94,8 @@ export default function LessonDetail() {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     itemListElement: [
-      { '@type': 'ListItem', position: 1, name: language === 'ko' ? '학습하기' : 'Lessons', item: 'https://finetuning.dreamitbiz.com/lessons' },
-      { '@type': 'ListItem', position: 2, name: catName, item: `https://finetuning.dreamitbiz.com/lessons/${categorySlug}` },
+      { '@type': 'ListItem', position: 1, name: language === 'ko' ? '학습하기' : 'Lessons', item: 'https://fine-tuning.dreamitbiz.com/lessons' },
+      { '@type': 'ListItem', position: 2, name: catName, item: `https://fine-tuning.dreamitbiz.com/lessons/${categorySlug}` },
       { '@type': 'ListItem', position: 3, name: lessonTitle },
     ],
   };

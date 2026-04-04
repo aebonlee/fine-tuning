@@ -50,14 +50,14 @@ export default function Home() {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
     name: 'FineTuning',
-    url: 'https://finetuning.dreamitbiz.com',
+    url: 'https://fine-tuning.dreamitbiz.com',
     description: language === 'ko'
       ? '데이터 준비부터 LoRA, RLHF, 모델 배포까지 AI 파인튜닝을 위한 체계적인 학습 플랫폼'
       : 'Structured learning platform for AI fine-tuning from data preparation to LoRA, RLHF, and model deployment',
     publisher: {
       '@type': 'Organization',
       name: 'DreamIT Biz',
-      url: 'https://finetuning.dreamitbiz.com',
+      url: 'https://fine-tuning.dreamitbiz.com',
     },
   };
 
