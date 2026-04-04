@@ -198,8 +198,9 @@ a { color: inherit; text-decoration: none; }
 }
 
 .btn-sm {
-    padding: 8px 20px;
+    padding: 10px 20px;
     font-size: 14px;
+    min-height: 40px;
 }
 
 .btn-link {

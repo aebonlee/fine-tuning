@@ -393,8 +393,8 @@ a.board-nav-item:hover {
 
 /* Comment delete button */
 .comment-delete-btn {
-    padding: 4px 8px;
-    font-size: 11px;
+    padding: 6px 10px;
+    font-size: 12px;
     border: 1px solid var(--border-light);
     border-radius: var(--radius-sm);
     background: transparent;
@@ -502,8 +502,8 @@ a.board-nav-item:hover {
     flex-wrap: wrap;
 }
 .board-pagination .page-btn {
-    min-width: 36px;
-    height: 36px;
+    min-width: 40px;
+    height: 40px;
     display: inline-flex;
     align-items: center;
     justify-content: center;

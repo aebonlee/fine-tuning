@@ -56,8 +56,13 @@
     cursor: pointer;
     color: var(--text-light);
     font-size: 16px;
-    padding: 2px;
+    padding: 8px;
     flex-shrink: 0;
+    min-width: 36px;
+    min-height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 .toast-close:hover { color: var(--text-primary); }
 
@@ -74,4 +79,13 @@
 @keyframes toastSlideIn {
     from { opacity: 0; transform: translateX(100%); }
     to { opacity: 1; transform: translateX(0); }
+}
+
+/* Mobile toast full-width */
+@media (max-width: 480px) {
+    .toast-container {
+        right: 8px;
+        left: 8px;
+        max-width: none;
+    }
 }

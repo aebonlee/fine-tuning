@@ -69,3 +69,14 @@
     transform: translateY(0);
     transition: opacity 0.3s ease, transform 0.3s ease;
 }
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    [data-aos] { opacity: 1; transform: none; transition: none; }
+    .pulse { animation: none; }
+    .skeleton { animation: none; }
+    .fade-in { animation: none; opacity: 1; }
+    .slide-up { animation: none; opacity: 1; transform: none; }
+    .page-enter { opacity: 1; transform: none; }
+    .page-enter-active { transition: none; }
+}

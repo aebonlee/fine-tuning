@@ -26,6 +26,15 @@
     .section-header { margin-bottom: 48px; }
 
     .carousel-arrow { display: none; }
+
+    /* Dashboard: collapse sidebar earlier */
+    .dashboard-grid { grid-template-columns: 1fr; }
+
+    /* Settings: collapse sidebar earlier */
+    .settings-layout { grid-template-columns: 1fr; }
+
+    /* Navbar inner padding transition */
+    .navbar-inner { padding: 0 24px; }
 }
 
 /* 768px: Tablet Portrait / Large Phone */
@@ -74,16 +83,12 @@
     /* Dashboard */
     .dashboard-page { padding: calc(var(--nav-height) + 20px) 0 40px; }
     .dashboard-welcome h1 { font-size: 22px; }
-    .dashboard-grid { grid-template-columns: 1fr; }
     .quick-access-grid { grid-template-columns: repeat(3, 1fr); gap: 10px; }
     .quick-access-card { padding: 16px 10px; gap: 8px; }
     .quick-access-icon { width: 40px; height: 40px; font-size: 20px; }
     .quick-access-label { font-size: 12px; }
     .dashboard-card { padding: 18px; }
     .usage-stat-label { font-size: 13px; }
-
-    /* Settings */
-    .settings-layout { grid-template-columns: 1fr; }
 
     /* Community */
     .board-filters { flex-direction: column; }
@@ -103,6 +108,9 @@
     /* Buttons */
     .btn { padding: 12px 24px; font-size: 14px; }
     .btn-primary-large { padding: 14px 32px; font-size: 16px; }
+
+    /* Lessons page top padding */
+    .lessons-page { padding-top: calc(var(--nav-height) + 20px); }
 }
 
 /* 480px: Small Phone */
@@ -142,7 +150,12 @@
     .board-actions { padding: 10px 16px; }
     .comment-form { flex-direction: column; }
     .comment-form button { align-self: flex-end; }
-    .board-pagination .page-btn { min-width: 32px; height: 32px; font-size: 13px; }
+    .board-pagination .page-btn { min-width: 34px; height: 34px; font-size: 13px; }
+
+    /* Settings */
+    .settings-card { padding: 16px; }
+    .settings-section { margin-bottom: 20px; }
+    .settings-section h3 { font-size: 16px; }
 
     /* Section Typography */
     .section-title { font-size: 22px; }
@@ -165,4 +178,13 @@
     .footer-contact p { font-size: 14px; }
     .footer-bottom { font-size: 13px; }
     .footer-bottom-info { font-size: 11px; }
+}
+
+/* Reduced motion: disable hero animations */
+@media (prefers-reduced-motion: reduce) {
+    .carousel-track { transition: none; }
+    .particles,
+    .network-canvas,
+    .orbs-container,
+    .geo-container { display: none; }
 }

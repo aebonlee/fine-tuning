@@ -262,6 +262,21 @@
     border-color: var(--border-light);
 }
 
+/* Lessons / Markdown dark */
+[data-theme="dark"] .markdown-body code {
+    background: rgba(255, 255, 255, 0.08);
+}
+[data-theme="dark"] .markdown-body th {
+    background: rgba(255, 255, 255, 0.06);
+}
+[data-theme="dark"] .markdown-body blockquote {
+    background: rgba(255, 255, 255, 0.04);
+}
+[data-theme="dark"] .ck-nav-parent:hover,
+[data-theme="dark"] .ck-nav-child:hover {
+    background: rgba(255, 255, 255, 0.06);
+}
+
 /* Intro page dark */
 [data-theme="dark"] .ck-sidebar,
 [data-theme="dark"] .ck-content-box {

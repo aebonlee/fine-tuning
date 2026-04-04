@@ -23,7 +23,6 @@
     display: flex;
     height: 100%;
     transition: transform 0.7s cubic-bezier(0.65, 0, 0.35, 1);
-    will-change: transform;
 }
 .carousel-slide {
     flex: 0 0 100%;
@@ -738,6 +737,12 @@
     .hero-title { font-size: 32px; }
     .hero-description { font-size: 15px; }
     .carousel-arrow { display: none; }
+
+    /* Disable expensive background animations on mobile */
+    .particles,
+    .network-canvas,
+    .orbs-container,
+    .geo-container { display: none; }
     .carousel-dots { bottom: 16px; gap: 10px; }
     .carousel-dot { width: 10px; height: 10px; border-width: 2px; }
     .scroll-indicator { display: none; }
