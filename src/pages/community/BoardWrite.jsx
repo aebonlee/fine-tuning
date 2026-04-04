@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { useLanguage } from '../../contexts/LanguageContext';
@@ -9,7 +9,7 @@ const CATEGORIES = ['notice', 'tip', 'question', 'free', 'showcase'];
 
 export default function BoardWrite() {
   const { user } = useAuth();
-  const { language, t } = useLanguage();
+  const { t } = useLanguage();
   const toast = useToast();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
@@ -20,6 +20,7 @@ export default function BoardWrite() {
   const [category, setCategory] = useState('free');
   const [loading, setLoading] = useState(false);
   const [loadingPost, setLoadingPost] = useState(false);
+  const [isDirty, setIsDirty] = useState(false);
 
   useEffect(() => {
     if (!editId) return;
@@ -39,10 +40,25 @@ export default function BoardWrite() {
       });
   }, [editId]);
 
+  // Track unsaved changes
+  const handleTitleChange = useCallback((e) => { setTitle(e.target.value); setIsDirty(true); }, []);
+  const handleContentChange = useCallback((e) => { setContent(e.target.value); setIsDirty(true); }, []);
+
+  // Warn on page leave with unsaved changes
+  useEffect(() => {
+    if (!isDirty) return;
+    const handleBeforeUnload = (e) => {
+      e.preventDefault();
+      e.returnValue = '';
+    };
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    return () => window.removeEventListener('beforeunload', handleBeforeUnload);
+  }, [isDirty]);
+
   async function handleSubmit(e) {
     e.preventDefault();
     if (!title.trim() || !content.trim()) {
-      toast.warning(language === 'ko' ? '제목과 내용을 입력해주세요.' : 'Please enter title and content.');
+      toast.warning(t('community.enterTitleContent'));
       return;
     }
 
@@ -55,7 +71,8 @@ export default function BoardWrite() {
         .eq('id', editId);
       setLoading(false);
       if (error) { toast.error(error.message); return; }
-      toast.success(language === 'ko' ? '게시글이 수정되었습니다.' : 'Post updated.');
+      setIsDirty(false);
+      toast.success(t('community.postUpdated'));
       navigate(`/community/board/${editId}`);
     } else {
       const { error } = await supabase.from('finetuning_board_posts').insert({
@@ -67,22 +84,29 @@ export default function BoardWrite() {
       });
       setLoading(false);
       if (error) { toast.error(error.message); return; }
-      toast.success(language === 'ko' ? '게시글이 작성되었습니다.' : 'Post created.');
+      setIsDirty(false);
+      toast.success(t('community.postCreated'));
       navigate('/community/board');
     }
   }
 
-  if (loadingPost) return <div className="loading-page"><div className="loading-spinner" /></div>;
+  function handleCancel() {
+    if (isDirty && !window.confirm(t('community.unsavedWarning'))) return;
+    navigate(-1);
+  }
+
+  if (loadingPost) return <div className="loading-page" role="status" aria-label="Loading"><div className="loading-spinner" /></div>;
 
   return (
     <div className="board-write-page">
       <div className="container">
         <form className="board-write-form" onSubmit={handleSubmit}>
-          <h1>{editId ? t('community.editPost') : (language === 'ko' ? '글쓰기' : 'Write a Post')}</h1>
+          <h1>{editId ? t('community.editPost') : t('community.writeTitle')}</h1>
 
           <div className="form-group">
-            <label className="form-label">{t('community.category')}</label>
+            <label htmlFor="post-category" className="form-label">{t('community.category')}</label>
             <select
+              id="post-category"
               className="board-category-select"
               value={category}
               onChange={e => setCategory(e.target.value)}
@@ -96,20 +120,20 @@ export default function BoardWrite() {
           </div>
 
           <div className="form-group">
-            <label className="form-label">{language === 'ko' ? '제목' : 'Title'}</label>
-            <input className="form-input" value={title} onChange={e => setTitle(e.target.value)} required />
+            <label htmlFor="post-title" className="form-label">{t('community.titleLabel')}</label>
+            <input id="post-title" className="form-input" value={title} onChange={handleTitleChange} required />
           </div>
           <div className="form-group">
-            <label className="form-label">{language === 'ko' ? '내용' : 'Content'}</label>
-            <textarea className="form-textarea" rows="12" value={content} onChange={e => setContent(e.target.value)} required />
+            <label htmlFor="post-content" className="form-label">{t('community.contentLabel')}</label>
+            <textarea id="post-content" className="form-textarea" rows="12" value={content} onChange={handleContentChange} required />
           </div>
 
           <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end' }}>
-            <button type="button" className="btn btn-secondary btn-sm" onClick={() => navigate(-1)}>
-              {language === 'ko' ? '취소' : 'Cancel'}
+            <button type="button" className="btn btn-secondary btn-sm" onClick={handleCancel}>
+              {t('community.cancel')}
             </button>
             <button type="submit" className="btn btn-primary btn-sm" disabled={loading}>
-              {loading ? '...' : editId ? t('community.edit') : (language === 'ko' ? '작성' : 'Submit')}
+              {loading ? <span className="loading-spinner" style={{ width: 20, height: 20, borderWidth: 2 }} /> : editId ? t('community.edit') : t('community.submit')}
             </button>
           </div>
         </form>

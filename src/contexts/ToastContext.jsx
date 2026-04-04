@@ -27,16 +27,16 @@ export function ToastProvider({ children }) {
   return (
     <ToastContext.Provider value={{ toasts, addToast, removeToast, success, error, warning, info }}>
       {children}
-      <div className="toast-container">
+      <div className="toast-container" role="status" aria-live="polite" aria-atomic="false">
         {toasts.map(toast => (
-          <div key={toast.id} className={`toast ${toast.type}`}>
-            <span className="toast-icon">
+          <div key={toast.id} className={`toast ${toast.type}`} role="alert">
+            <span className="toast-icon" aria-hidden="true">
               {toast.type === 'success' ? '\u2713' : toast.type === 'error' ? '\u2715' : toast.type === 'warning' ? '\u26A0' : '\u2139'}
             </span>
             <div className="toast-content">
               <span className="toast-message">{toast.message}</span>
             </div>
-            <button className="toast-close" onClick={() => removeToast(toast.id)}>\u00D7</button>
+            <button className="toast-close" onClick={() => removeToast(toast.id)} aria-label="Close notification">{'\u00D7'}</button>
           </div>
         ))}
       </div>

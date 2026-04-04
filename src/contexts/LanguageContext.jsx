@@ -1,18 +1,8 @@
 import { createContext, useContext, useState, useCallback } from 'react';
 import translations from '../utils/translations';
+import { getCookie, setCookie } from '../utils/cookies';
 
 const LanguageContext = createContext();
-
-function getCookie(name) {
-  const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
-  return match ? match[2] : null;
-}
-
-function setCookie(name, value, days = 365) {
-  const d = new Date();
-  d.setTime(d.getTime() + days * 24 * 60 * 60 * 1000);
-  document.cookie = `${name}=${value};expires=${d.toUTCString()};path=/`;
-}
 
 export function LanguageProvider({ children }) {
   const [language, setLanguageState] = useState(() => getCookie('language') || 'ko');

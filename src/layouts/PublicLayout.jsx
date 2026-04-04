@@ -25,7 +25,7 @@ const NotFound = lazy(() => import('../pages/NotFound'));
 
 function LoadingFallback() {
   return (
-    <div className="loading-page">
+    <div className="loading-page" role="status" aria-label="Loading">
       <div className="loading-spinner" />
     </div>
   );
@@ -51,8 +51,13 @@ function LessonsLayout() {
   return (
     <div className="ck-page">
       <div className="container">
-        <button className="ck-sidebar-toggle" onClick={() => setSidebarOpen(!sidebarOpen)}>
-          <i className="fa-solid fa-bars" /> {currentGroupLabel}
+        <button
+          className="ck-sidebar-toggle"
+          onClick={() => setSidebarOpen(!sidebarOpen)}
+          aria-expanded={sidebarOpen}
+          aria-controls="lessons-sidebar"
+        >
+          <i className="fa-solid fa-bars" aria-hidden="true" /> {currentGroupLabel}
         </button>
 
         <div className="ck-layout">
@@ -74,7 +79,7 @@ export default function PublicLayout() {
   return (
     <>
       <Navbar />
-      <main>
+      <main id="main-content">
         <Suspense fallback={<LoadingFallback />}>
           <Routes>
             <Route path="/" element={<Home />} />
@@ -90,8 +95,8 @@ export default function PublicLayout() {
             <Route path="/register" element={<Register />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/community/board" element={<Board />} />
-            <Route path="/community/board/:id" element={<BoardDetail />} />
             <Route path="/community/board/write" element={<AuthGuard><BoardWrite /></AuthGuard>} />
+            <Route path="/community/board/:id" element={<BoardDetail />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>

@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import { getCookie, setCookie } from '../utils/cookies';
 
 const ThemeContext = createContext();
 
@@ -9,17 +10,6 @@ const COLOR_OPTIONS = [
   { name: 'purple', color: '#8B1AC8' },
   { name: 'orange', color: '#C87200' },
 ];
-
-function getCookie(name) {
-  const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
-  return match ? match[2] : null;
-}
-
-function setCookie(name, value, days = 365) {
-  const d = new Date();
-  d.setTime(d.getTime() + days * 24 * 60 * 60 * 1000);
-  document.cookie = `${name}=${value};expires=${d.toUTCString()};path=/`;
-}
 
 function getAutoTheme() {
   const hour = new Date().getHours();

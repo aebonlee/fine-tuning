@@ -4,6 +4,7 @@ import { ThemeProvider } from './contexts/ThemeContext';
 import { LanguageProvider } from './contexts/LanguageContext';
 import { AuthProvider } from './contexts/AuthContext';
 import { ToastProvider } from './contexts/ToastContext';
+import ErrorBoundary from './components/ErrorBoundary';
 import PublicLayout from './layouts/PublicLayout';
 import useScrollAnimation from './hooks/useScrollAnimation';
 
@@ -14,20 +15,22 @@ function ScrollAnimationInit() {
 
 function App() {
   return (
-    <HelmetProvider>
-      <ThemeProvider>
-        <LanguageProvider>
-          <AuthProvider>
-            <ToastProvider>
-              <BrowserRouter basename={import.meta.env.BASE_URL}>
-                <ScrollAnimationInit />
-                <PublicLayout />
-              </BrowserRouter>
-            </ToastProvider>
-          </AuthProvider>
-        </LanguageProvider>
-      </ThemeProvider>
-    </HelmetProvider>
+    <ErrorBoundary>
+      <HelmetProvider>
+        <ThemeProvider>
+          <LanguageProvider>
+            <AuthProvider>
+              <ToastProvider>
+                <BrowserRouter basename={import.meta.env.BASE_URL}>
+                  <ScrollAnimationInit />
+                  <PublicLayout />
+                </BrowserRouter>
+              </ToastProvider>
+            </AuthProvider>
+          </LanguageProvider>
+        </ThemeProvider>
+      </HelmetProvider>
+    </ErrorBoundary>
   );
 }
 

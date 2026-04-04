@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { useLanguage } from '../../contexts/LanguageContext';
@@ -17,7 +17,7 @@ const CATEGORY_CLASSES = {
 export default function BoardDetail() {
   const { id } = useParams();
   const { user } = useAuth();
-  const { language, t } = useLanguage();
+  const { t } = useLanguage();
   const toast = useToast();
   const navigate = useNavigate();
   const [post, setPost] = useState(null);
@@ -28,9 +28,7 @@ export default function BoardDetail() {
   const [prevPost, setPrevPost] = useState(null);
   const [nextPost, setNextPost] = useState(null);
 
-  useEffect(() => { loadPost(); }, [id]);
-
-  async function loadPost() {
+  const loadPost = useCallback(async () => {
     setLoading(true);
     try {
       const { data } = await supabase
@@ -41,54 +39,64 @@ export default function BoardDetail() {
       setPost(data);
 
       if (data) {
-        try {
-          await supabase.rpc('increment_finetuning_post_views', { post_uuid: id });
-        } catch {
-          await supabase.from('finetuning_board_posts').update({ views: (data.views || 0) + 1 }).eq('id', id);
-        }
+        // View count increment (fire-and-forget with error logging)
+        supabase.rpc('increment_finetuning_post_views', { post_uuid: id })
+          .then(({ error }) => {
+            if (error) {
+              supabase.from('finetuning_board_posts')
+                .update({ views: (data.views || 0) + 1 })
+                .eq('id', id)
+                .then(({ error: e2 }) => { if (e2) console.error('View count update failed:', e2.message); });
+            }
+          });
 
-        const { data: prev } = await supabase
-          .from('finetuning_board_posts')
-          .select('id, title, category')
-          .lt('created_at', data.created_at)
-          .order('created_at', { ascending: false })
-          .limit(1)
-          .single();
-        setPrevPost(prev || null);
+        // Parallel fetch: prev/next posts + comments
+        const [prevRes, nextRes, commentsRes] = await Promise.all([
+          supabase
+            .from('finetuning_board_posts')
+            .select('id, title, category')
+            .lt('created_at', data.created_at)
+            .order('created_at', { ascending: false })
+            .limit(1)
+            .single(),
+          supabase
+            .from('finetuning_board_posts')
+            .select('id, title, category')
+            .gt('created_at', data.created_at)
+            .order('created_at', { ascending: true })
+            .limit(1)
+            .single(),
+          supabase
+            .from('finetuning_board_comments')
+            .select('*')
+            .eq('post_id', id)
+            .order('created_at', { ascending: true }),
+        ]);
 
-        const { data: next } = await supabase
-          .from('finetuning_board_posts')
-          .select('id, title, category')
-          .gt('created_at', data.created_at)
-          .order('created_at', { ascending: true })
-          .limit(1)
-          .single();
-        setNextPost(next || null);
+        setPrevPost(prevRes.data || null);
+        setNextPost(nextRes.data || null);
+        setComments(commentsRes.data || []);
       }
-
-      const { data: commentsData } = await supabase
-        .from('finetuning_board_comments')
-        .select('*')
-        .eq('post_id', id)
-        .order('created_at', { ascending: true });
-      setComments(commentsData || []);
-    } catch {
-      // fail silently
+    } catch (err) {
+      console.error('Failed to load post:', err);
     } finally {
       setLoading(false);
     }
-  }
+  }, [id]);
+
+  useEffect(() => { loadPost(); }, [loadPost]);
 
   async function handleComment(e) {
     e.preventDefault();
     if (!newComment.trim() || !user) return;
 
-    await supabase.from('finetuning_board_comments').insert({
+    const { error } = await supabase.from('finetuning_board_comments').insert({
       post_id: id,
       user_id: user.id,
       author_name: user.user_metadata?.full_name || user.email?.split('@')[0],
       content: newComment,
     });
+    if (error) { toast.error(error.message); return; }
     setNewComment('');
     loadPost();
   }
@@ -96,7 +104,7 @@ export default function BoardDetail() {
   async function handleDeletePost() {
     const { error } = await supabase.from('finetuning_board_posts').delete().eq('id', id);
     if (error) { toast.error(error.message); return; }
-    toast.success(language === 'ko' ? '게시글이 삭제되었습니다.' : 'Post deleted.');
+    toast.success(t('community.postDeleted'));
     navigate('/community/board');
   }
 
@@ -107,8 +115,28 @@ export default function BoardDetail() {
     loadPost();
   }
 
-  if (loading) return <div className="loading-page"><div className="loading-spinner" /></div>;
-  if (!post) return <div style={{ padding: '100px 20px', textAlign: 'center' }}>Post not found</div>;
+  // Close modal on Escape
+  useEffect(() => {
+    if (!confirmDelete) return;
+    const handleEsc = (e) => { if (e.key === 'Escape') setConfirmDelete(null); };
+    document.addEventListener('keydown', handleEsc);
+    return () => document.removeEventListener('keydown', handleEsc);
+  }, [confirmDelete]);
+
+  if (loading) return <div className="loading-page" role="status" aria-label="Loading"><div className="loading-spinner" /></div>;
+  if (!post) return (
+    <div className="board-detail-page">
+      <div className="container">
+        <div className="board-empty" role="alert">
+          <div className="board-empty-icon">📄</div>
+          <p>{t('community.postNotFound')}</p>
+          <Link to="/community/board" className="btn btn-primary btn-sm" style={{ marginTop: '16px' }}>
+            {t('community.backToList')}
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
 
   const isOwner = user && post.user_id === user.id;
   const categoryKey = post.category || '';
@@ -125,9 +153,9 @@ export default function BoardDetail() {
       />
       <div className="container">
         <Link to="/community/board" className="btn-link" style={{ marginBottom: '20px', display: 'inline-flex' }}>
-          &larr; {language === 'ko' ? '목록으로' : 'Back to list'}
+          &larr; {t('community.backToList')}
         </Link>
-        <div className="board-detail">
+        <article className="board-detail">
           <div className="board-detail-header">
             <h1 className="board-detail-title">
               {categoryKey && (
@@ -138,9 +166,9 @@ export default function BoardDetail() {
               {post.title}
             </h1>
             <div className="board-detail-meta">
-              <span>{post.author_name || 'Anonymous'}</span>
+              <span>{post.author_name || t('community.anonymous')}</span>
               <span>{new Date(post.created_at).toLocaleDateString()}</span>
-              <span><i className="fa-solid fa-eye" /> {post.views || 0}</span>
+              <span><i className="fa-solid fa-eye" aria-hidden="true" /> {post.views || 0}</span>
             </div>
           </div>
           <div className="board-detail-body board-detail-content">{post.content}</div>
@@ -148,49 +176,49 @@ export default function BoardDetail() {
           {isOwner && (
             <div className="board-actions">
               <Link to={`/community/board/write?edit=${id}`} className="btn-edit">
-                <i className="fa-solid fa-pen" />{t('community.edit')}
+                <i className="fa-solid fa-pen" aria-hidden="true" />{t('community.edit')}
               </Link>
               <button className="btn-delete" onClick={() => setConfirmDelete('post')}>
-                <i className="fa-solid fa-trash" />{t('community.delete')}
+                <i className="fa-solid fa-trash" aria-hidden="true" />{t('community.delete')}
               </button>
             </div>
           )}
 
-          <div className="board-nav-posts">
+          <nav className="board-nav-posts" aria-label={t('community.prevPost') + ' / ' + t('community.nextPost')}>
             {nextPost ? (
               <Link to={`/community/board/${nextPost.id}`} className="board-nav-item">
-                <span className="board-nav-label">{'\u25B2'} {language === 'ko' ? '다음 글' : 'Next'}</span>
+                <span className="board-nav-label">{'\u25B2'} {t('community.nextPost')}</span>
                 <span className="board-nav-title">{nextPost.title}</span>
               </Link>
             ) : (
               <div className="board-nav-item board-nav-empty">
-                <span className="board-nav-label">{'\u25B2'} {language === 'ko' ? '다음 글' : 'Next'}</span>
-                <span className="board-nav-title-empty">{language === 'ko' ? '다음 글이 없습니다.' : 'No next post.'}</span>
+                <span className="board-nav-label">{'\u25B2'} {t('community.nextPost')}</span>
+                <span className="board-nav-title-empty">{t('community.noNextPost')}</span>
               </div>
             )}
             {prevPost ? (
               <Link to={`/community/board/${prevPost.id}`} className="board-nav-item">
-                <span className="board-nav-label">{'\u25BC'} {language === 'ko' ? '이전 글' : 'Prev'}</span>
+                <span className="board-nav-label">{'\u25BC'} {t('community.prevPost')}</span>
                 <span className="board-nav-title">{prevPost.title}</span>
               </Link>
             ) : (
               <div className="board-nav-item board-nav-empty">
-                <span className="board-nav-label">{'\u25BC'} {language === 'ko' ? '이전 글' : 'Prev'}</span>
-                <span className="board-nav-title-empty">{language === 'ko' ? '이전 글이 없습니다.' : 'No previous post.'}</span>
+                <span className="board-nav-label">{'\u25BC'} {t('community.prevPost')}</span>
+                <span className="board-nav-title-empty">{t('community.noPrevPost')}</span>
               </div>
             )}
-          </div>
+          </nav>
 
-          <div className="comments-section">
-            <h3>{language === 'ko' ? '댓글' : 'Comments'} ({comments.length})</h3>
+          <section className="comments-section" aria-label={t('community.comments')}>
+            <h3>{t('community.comments')} ({comments.length})</h3>
             {comments.map(c => (
               <div key={c.id} className="comment-item">
-                <div className="comment-avatar">{(c.author_name || 'A').charAt(0).toUpperCase()}</div>
+                <div className="comment-avatar" aria-hidden="true">{(c.author_name || 'A').charAt(0).toUpperCase()}</div>
                 <div className="comment-content">
                   <span className="comment-author">{c.author_name}</span>
                   <span className="comment-date">{new Date(c.created_at).toLocaleDateString()}</span>
                   {user && c.user_id === user.id && (
-                    <button className="comment-delete-btn" onClick={() => setConfirmDelete(c.id)}>
+                    <button className="comment-delete-btn" onClick={() => setConfirmDelete(c.id)} aria-label={t('community.delete')}>
                       {t('community.delete')}
                     </button>
                   )}
@@ -200,31 +228,34 @@ export default function BoardDetail() {
             ))}
             {user && (
               <form className="comment-form" onSubmit={handleComment}>
+                <label htmlFor="comment-input" className="sr-only">{t('community.commentPlaceholder')}</label>
                 <textarea
+                  id="comment-input"
                   value={newComment}
                   onChange={e => setNewComment(e.target.value)}
-                  placeholder={language === 'ko' ? '댓글을 입력하세요.' : 'Write a comment...'}
+                  placeholder={t('community.commentPlaceholder')}
                 />
-                <button type="submit" className="btn btn-primary btn-sm">{language === 'ko' ? '작성' : 'Post'}</button>
+                <button type="submit" className="btn btn-primary btn-sm">{t('community.commentSubmit')}</button>
               </form>
             )}
-          </div>
-        </div>
+          </section>
+        </article>
       </div>
 
       {confirmDelete && (
-        <div className="board-confirm-overlay" onClick={() => setConfirmDelete(null)}>
-          <div className="board-confirm-modal" onClick={e => e.stopPropagation()}>
-            <p>{confirmDelete === 'post' ? t('community.deleteConfirm') : t('community.deleteCommentConfirm')}</p>
+        <div className="board-confirm-overlay" onClick={() => setConfirmDelete(null)} role="presentation">
+          <div className="board-confirm-modal" role="dialog" aria-modal="true" aria-labelledby="confirm-dialog-text" onClick={e => e.stopPropagation()}>
+            <p id="confirm-dialog-text">{confirmDelete === 'post' ? t('community.deleteConfirm') : t('community.deleteCommentConfirm')}</p>
             <div className="board-confirm-actions">
               <button className="board-confirm-cancel" onClick={() => setConfirmDelete(null)}>
-                {language === 'ko' ? '취소' : 'Cancel'}
+                {t('common.cancel')}
               </button>
               <button
                 className="board-confirm-delete"
                 onClick={() => confirmDelete === 'post' ? handleDeletePost() : handleDeleteComment(confirmDelete)}
+                autoFocus
               >
-                {t('community.delete')}
+                {t('common.delete')}
               </button>
             </div>
           </div>

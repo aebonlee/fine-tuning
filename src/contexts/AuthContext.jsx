@@ -10,7 +10,8 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    supabase.auth.getSession().then(({ data: { session }, error }) => {
+      if (error) console.error('Failed to get session:', error.message);
       setUser(session?.user ?? null);
       if (session?.user) loadProfile(session.user.id);
       setLoading(false);
@@ -25,7 +26,9 @@ export function AuthProvider({ children }) {
           supabase.from('user_profiles')
             .update({ last_sign_in_at: new Date().toISOString() })
             .eq('id', u.id)
-            .then(() => {});
+            .then(({ error }) => {
+              if (error) console.error('Failed to update sign-in time:', error.message);
+            });
         }
       } else {
         setProfile(null);
@@ -37,11 +40,16 @@ export function AuthProvider({ children }) {
 
   async function loadProfile(userId) {
     try {
-      const { data: profileData } = await supabase
+      const { data: profileData, error } = await supabase
         .from('user_profiles')
         .select('*')
         .eq('id', userId)
         .single();
+      if (error) {
+        console.error('Failed to load profile:', error.message);
+        setProfile(null);
+        return;
+      }
       if (profileData) {
         setProfile(profileData);
         const currentDomain = window.location.hostname;
@@ -52,12 +60,16 @@ export function AuthProvider({ children }) {
           updates.visited_sites = [...sites, currentDomain];
         }
         if (Object.keys(updates).length > 0) {
-          supabase.from('user_profiles').update(updates).eq('id', userId).then(() => {});
+          supabase.from('user_profiles').update(updates).eq('id', userId)
+            .then(({ error: updateError }) => {
+              if (updateError) console.error('Failed to update profile domain:', updateError.message);
+            });
         }
       } else {
         setProfile(null);
       }
-    } catch {
+    } catch (err) {
+      console.error('Unexpected error loading profile:', err);
       setProfile(null);
     }
   }
@@ -74,9 +86,15 @@ export function AuthProvider({ children }) {
   }
 
   async function signOut() {
-    await supabase.auth.signOut();
-    setUser(null);
-    setProfile(null);
+    try {
+      const { error } = await supabase.auth.signOut();
+      if (error) console.error('Sign out error:', error.message);
+    } catch (err) {
+      console.error('Unexpected sign out error:', err);
+    } finally {
+      setUser(null);
+      setProfile(null);
+    }
   }
 
   const value = {

@@ -60,7 +60,7 @@ export default function Footer() {
         </div>
 
         <div className="footer-bottom">
-          <p>&copy; 2025 {language === 'ko' ? '드림아이티비즈' : ''}(DreamIT Biz). All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} {language === 'ko' ? '드림아이티비즈' : ''}(DreamIT Biz). All rights reserved.</p>
           <p className="footer-bottom-info">
             Designed by Ph.D Aebon Lee | {language === 'ko' ? '대표이사: 이애본 | 사업자등록번호: 601-45-20154 | 통신판매신고번호: 제2024-수원팔달-0584호 | 출판사 신고번호: 제2026-000026호' : 'CEO: Aebon Lee | Business Registration: 601-45-20154'}
           </p>
