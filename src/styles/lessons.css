@@ -318,6 +318,8 @@
 .prompt-code-wrapper {
   position: relative;
   margin: 1em 0;
+  max-width: 100%;
+  overflow: hidden;
 }
 .prompt-code-wrapper pre {
   margin: 0;
@@ -353,6 +355,7 @@
 .markdown-body {
   line-height: 1.8;
   font-size: 0.95rem;
+  overflow-x: hidden;
 }
 
 .markdown-body h1 {
