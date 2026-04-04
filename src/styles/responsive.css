@@ -142,6 +142,7 @@
     .board-actions { padding: 10px 16px; }
     .comment-form { flex-direction: column; }
     .comment-form button { align-self: flex-end; }
+    .board-pagination .page-btn { min-width: 32px; height: 32px; font-size: 13px; }
 
     /* Section Typography */
     .section-title { font-size: 22px; }

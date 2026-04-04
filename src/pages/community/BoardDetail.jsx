@@ -8,10 +8,10 @@ import SEO from '../../components/SEO';
 
 const CATEGORY_CLASSES = {
   notice: 'board-category-notice',
-  tip: 'board-category-resource',
+  tip: 'board-category-tip',
   question: 'board-category-question',
   free: 'board-category-free',
-  showcase: 'board-category-resource',
+  showcase: 'board-category-showcase',
 };
 
 export default function BoardDetail() {
@@ -140,10 +140,10 @@ export default function BoardDetail() {
             <div className="board-detail-meta">
               <span>{post.author_name || 'Anonymous'}</span>
               <span>{new Date(post.created_at).toLocaleDateString()}</span>
-              <span><i className="fa-solid fa-eye" />{post.views || 0}</span>
+              <span><i className="fa-solid fa-eye" /> {post.views || 0}</span>
             </div>
           </div>
-          <div className="board-detail-body" dangerouslySetInnerHTML={{ __html: post.content?.replace(/\n/g, '<br/>') }} />
+          <div className="board-detail-body board-detail-content">{post.content}</div>
 
           {isOwner && (
             <div className="board-actions">

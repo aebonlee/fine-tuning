@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { useLanguage } from '../../contexts/LanguageContext';
@@ -10,23 +10,68 @@ const CATEGORIES = ['all', 'notice', 'tip', 'question', 'free', 'showcase'];
 
 const CATEGORY_CLASSES = {
   notice: 'board-category-notice',
-  tip: 'board-category-resource',
+  tip: 'board-category-tip',
   question: 'board-category-question',
   free: 'board-category-free',
-  showcase: 'board-category-resource',
+  showcase: 'board-category-showcase',
 };
+
+function useDebouncedValue(value, delay = 400) {
+  const [debounced, setDebounced] = useState(value);
+  useEffect(() => {
+    const timer = setTimeout(() => setDebounced(value), delay);
+    return () => clearTimeout(timer);
+  }, [value, delay]);
+  return debounced;
+}
+
+function Pagination({ page, total, onPageChange }) {
+  if (total <= 1) return null;
+
+  const pages = [];
+  const maxVisible = 5;
+
+  if (total <= maxVisible + 2) {
+    for (let i = 1; i <= total; i++) pages.push(i);
+  } else {
+    pages.push(1);
+    let start = Math.max(2, page - 1);
+    let end = Math.min(total - 1, page + 1);
+    if (page <= 3) { start = 2; end = maxVisible; }
+    if (page >= total - 2) { start = total - maxVisible + 1; end = total - 1; }
+    if (start > 2) pages.push('...');
+    for (let i = start; i <= end; i++) pages.push(i);
+    if (end < total - 1) pages.push('...');
+    pages.push(total);
+  }
+
+  return (
+    <div className="board-pagination">
+      <button className="page-btn" disabled={page === 1} onClick={() => onPageChange(page - 1)}>&lsaquo;</button>
+      {pages.map((p, i) =>
+        p === '...' ? (
+          <span key={`e${i}`} className="page-ellipsis">...</span>
+        ) : (
+          <button key={p} className={`page-btn${page === p ? ' active' : ''}`} onClick={() => onPageChange(p)}>{p}</button>
+        )
+      )}
+      <button className="page-btn" disabled={page === total} onClick={() => onPageChange(page + 1)}>&rsaquo;</button>
+    </div>
+  );
+}
 
 export default function Board() {
   const { isLoggedIn } = useAuth();
   const { language, t } = useLanguage();
   const [posts, setPosts] = useState([]);
   const [search, setSearch] = useState('');
+  const debouncedSearch = useDebouncedValue(search);
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
   const [categoryFilter, setCategoryFilter] = useState('all');
 
-  useEffect(() => { loadPosts(); }, [page, search, categoryFilter]);
+  useEffect(() => { loadPosts(); }, [page, debouncedSearch, categoryFilter]);
 
   async function loadPosts() {
     setLoading(true);
@@ -37,8 +82,8 @@ export default function Board() {
         .order('created_at', { ascending: false })
         .range((page - 1) * PER_PAGE, page * PER_PAGE - 1);
 
-      if (search.trim()) {
-        query = query.ilike('title', `%${search}%`);
+      if (debouncedSearch.trim()) {
+        query = query.ilike('title', `%${debouncedSearch}%`);
       }
       if (categoryFilter !== 'all') {
         query = query.eq('category', categoryFilter);
@@ -91,7 +136,7 @@ export default function Board() {
           </div>
           {isLoggedIn && (
             <Link to="/community/board/write" className="board-write-btn">
-              <i className="fa-solid fa-pen" />{t('community.write')}
+              <i className="fa-solid fa-pen" /> {t('community.write')}
             </Link>
           )}
         </div>
@@ -120,33 +165,21 @@ export default function Board() {
                     </div>
                   </div>
                   <div className="board-card-stats">
-                    <span><i className="fa-solid fa-eye" />{post.views || 0}</span>
-                    <span><i className="fa-solid fa-comment" />{post.comment_count || 0}</span>
+                    <span><i className="fa-solid fa-eye" /> {post.views || 0}</span>
+                    <span><i className="fa-solid fa-comment" /> {post.comment_count || 0}</span>
                   </div>
                 </Link>
               );
             })}
           </div>
         ) : (
-          <div style={{ textAlign: 'center', padding: '60px 20px', color: 'var(--text-light)' }}>
-            <p style={{ fontSize: '48px', marginBottom: '12px', opacity: 0.3 }}><i className="fa-solid fa-comments" style={{ fontSize: '48px' }} /></p>
+          <div className="board-empty">
+            <div className="board-empty-icon"><i className="fa-solid fa-comments" /></div>
             <p>{language === 'ko' ? '게시글이 없습니다.' : 'No posts yet.'}</p>
           </div>
         )}
 
-        {total > 1 && (
-          <div style={{ display: 'flex', justifyContent: 'center', gap: '8px', marginTop: '24px' }}>
-            {Array.from({ length: total }, (_, i) => (
-              <button
-                key={i}
-                className={`btn btn-sm ${page === i + 1 ? 'btn-primary' : 'btn-secondary'}`}
-                onClick={() => setPage(i + 1)}
-              >
-                {i + 1}
-              </button>
-            ))}
-          </div>
-        )}
+        <Pagination page={page} total={total} onPageChange={setPage} />
       </div>
     </div>
   );
