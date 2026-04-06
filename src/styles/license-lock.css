@@ -1,0 +1,232 @@
+/* ============================================
+   LicenseGuard Lock Overlay — 공유 스타일
+   ============================================ */
+
+.license-lock-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  animation: lockFadeIn 0.3s ease;
+}
+
+.license-lock-card {
+  background: #fff;
+  border-radius: 20px;
+  padding: 40px 36px;
+  max-width: 480px;
+  width: 90%;
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  animation: lockSlideUp 0.4s ease;
+}
+
+.license-lock-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 20px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #f0f4ff, #e8ecff);
+  color: #4F46E5;
+}
+
+.license-lock-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin: 0 0 8px;
+}
+
+.license-lock-desc {
+  font-size: 15px;
+  color: #6b7280;
+  margin: 0 0 24px;
+  line-height: 1.5;
+}
+
+.license-lock-pricing {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 16px 20px;
+  margin-bottom: 24px;
+  background: #f8f9fc;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+}
+
+.license-lock-price-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.license-lock-price-label {
+  font-size: 12px;
+  color: #9ca3af;
+  font-weight: 500;
+}
+
+.license-lock-price-value {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1a1a2e;
+}
+
+.license-lock-price-value.highlight {
+  color: #4F46E5;
+}
+
+.license-lock-price-discount {
+  font-size: 11px;
+  color: #10b981;
+  font-weight: 600;
+  background: #ecfdf5;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.license-lock-price-divider {
+  color: #d1d5db;
+  font-size: 20px;
+  font-weight: 300;
+}
+
+.license-lock-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.license-lock-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 24px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  border: none;
+}
+
+.license-lock-btn.primary {
+  background: linear-gradient(135deg, #4F46E5, #7C3AED);
+  color: #fff;
+}
+
+.license-lock-btn.primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(79, 70, 229, 0.4);
+}
+
+.license-lock-btn.secondary {
+  background: #f3f4f6;
+  color: #4b5563;
+}
+
+.license-lock-btn.secondary:hover {
+  background: #e5e7eb;
+}
+
+.license-lock-footer {
+  font-size: 13px;
+  color: #9ca3af;
+  margin: 0;
+}
+
+/* Animations */
+@keyframes lockFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes lockSlideUp {
+  from { opacity: 0; transform: translateY(20px) scale(0.97); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Dark mode */
+@media (prefers-color-scheme: dark) {
+  .license-lock-card {
+    background: #1e1e2e;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  }
+  .license-lock-icon {
+    background: linear-gradient(135deg, #2a2a40, #3a3a55);
+  }
+  .license-lock-title {
+    color: #f1f5f9;
+  }
+  .license-lock-desc {
+    color: #94a3b8;
+  }
+  .license-lock-pricing {
+    background: #2a2a40;
+    border-color: #3a3a55;
+  }
+  .license-lock-price-label {
+    color: #64748b;
+  }
+  .license-lock-price-value {
+    color: #f1f5f9;
+  }
+  .license-lock-btn.secondary {
+    background: #2a2a40;
+    color: #cbd5e1;
+  }
+  .license-lock-btn.secondary:hover {
+    background: #3a3a55;
+  }
+  .license-lock-footer {
+    color: #64748b;
+  }
+}
+
+/* html[data-theme="dark"] override — 학습 사이트 테마 시스템 대응 */
+html[data-theme="dark"] .license-lock-card {
+  background: #1e1e2e;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+html[data-theme="dark"] .license-lock-icon {
+  background: linear-gradient(135deg, #2a2a40, #3a3a55);
+}
+html[data-theme="dark"] .license-lock-title {
+  color: #f1f5f9;
+}
+html[data-theme="dark"] .license-lock-desc {
+  color: #94a3b8;
+}
+html[data-theme="dark"] .license-lock-pricing {
+  background: #2a2a40;
+  border-color: #3a3a55;
+}
+html[data-theme="dark"] .license-lock-price-label {
+  color: #64748b;
+}
+html[data-theme="dark"] .license-lock-price-value {
+  color: #f1f5f9;
+}
+html[data-theme="dark"] .license-lock-btn.secondary {
+  background: #2a2a40;
+  color: #cbd5e1;
+}
+html[data-theme="dark"] .license-lock-btn.secondary:hover {
+  background: #3a3a55;
+}
+html[data-theme="dark"] .license-lock-footer {
+  color: #64748b;
+}

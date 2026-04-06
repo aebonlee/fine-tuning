@@ -7,6 +7,8 @@ import AuthGuard from '../components/AuthGuard';
 import AdminGuard from '../components/AdminGuard';
 import { useLanguage } from '../contexts/LanguageContext';
 import { MENU_GROUPS } from '../config/lessons';
+import { LicenseProvider } from '../components/LicenseGuard';
+import LockOverlay from '../components/LockOverlay';
 
 const Home = lazy(() => import('../pages/Home'));
 const IntroPage = lazy(() => import('../pages/intro/IntroPage'));
@@ -77,6 +79,7 @@ function LessonsLayout() {
 
 export default function PublicLayout() {
   return (
+    <LicenseProvider>
     <>
       <Navbar />
       <main id="main-content">
@@ -102,6 +105,8 @@ export default function PublicLayout() {
         </Suspense>
       </main>
       <Footer />
+      <LockOverlay />
     </>
+    </LicenseProvider>
   );
 }
