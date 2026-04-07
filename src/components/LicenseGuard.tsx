@@ -69,12 +69,13 @@ export function LicenseProvider({ children }: { children: ReactNode }) {
         return;
       }
 
-      // 캐시 확인
+      // 캐시 확인 (true=10분, false=2분 캐시)
       try {
         const cached = localStorage.getItem(LICENSE_CACHE_KEY);
         if (cached) {
           const { value, timestamp } = JSON.parse(cached);
-          if (Date.now() - timestamp < CACHE_TTL) {
+          const ttl = value ? CACHE_TTL : 2 * 60 * 1000;
+          if (Date.now() - timestamp < ttl) {
             setHasLicense(value);
             setLicenseLoading(false);
             return;
@@ -88,7 +89,25 @@ export function LicenseProvider({ children }: { children: ReactNode }) {
         p_site_slug: SITE_SLUG,
       });
 
-      const result = error ? false : !!data;
+      let result = error ? false : !!data;
+
+      // 쿠폰 직접 체크 (RPC가 false일 때 fallback)
+      if (!result) {
+        try {
+          const today = new Date().toISOString().split('T')[0];
+          const { data: cData } = await supabase
+            .from('ah_coupon_uses')
+            .select('id, coupon:ah_coupons!coupon_id(is_active, expires_at)')
+            .eq('user_id', user.id);
+          if ((cData || []).some((r: Record<string, unknown>) => {
+            const c = r.coupon as Record<string, unknown> | null;
+            return c?.is_active && (c?.expires_at as string) >= today;
+          })) {
+            result = true;
+          }
+        } catch { /* coupon fallback failed */ }
+      }
+
       setHasLicense(result);
 
       // 캐시 저장
