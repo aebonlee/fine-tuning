@@ -23,6 +23,7 @@ const ForgotPassword = lazy(() => import('../pages/ForgotPassword'));
 const Board = lazy(() => import('../pages/community/Board'));
 const BoardDetail = lazy(() => import('../pages/community/BoardDetail'));
 const BoardWrite = lazy(() => import('../pages/community/BoardWrite'));
+const AdminDashboard = lazy(() => import('../pages/admin/AdminDashboard'));
 const NotFound = lazy(() => import('../pages/NotFound'));
 
 function LoadingFallback() {
@@ -100,6 +101,7 @@ export default function PublicLayout() {
             <Route path="/community/board" element={<Board />} />
             <Route path="/community/board/write" element={<AuthGuard><BoardWrite /></AuthGuard>} />
             <Route path="/community/board/:id" element={<BoardDetail />} />
+            <Route path="/admin" element={<AdminGuard><AdminDashboard /></AdminGuard>} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>
