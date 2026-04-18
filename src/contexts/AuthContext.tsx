@@ -58,15 +58,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
     });
 
-
-  // 10분 무동작 세션 타임아웃
-  useIdleTimeout({
-    enabled: !!user,
-    onTimeout: () => {
-      clearSharedSession();
-    },
-  });
-
     return () => subscription.unsubscribe();
   }, []);
 
@@ -139,6 +130,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     updateProfile,
     refreshProfile: () => user && loadProfile(user.id),
   };
+
+
+  // 10분 무동작 세션 타임아웃
+  useIdleTimeout({
+  enabled: !!user,
+  onTimeout: () => {
+  clearSharedSession();
+  },
+  });
 
   return (
     <AuthContext.Provider value={value}>
