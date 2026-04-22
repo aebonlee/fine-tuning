@@ -166,6 +166,7 @@ export function LicenseProvider({ children }: { children: ReactNode }) {
 
   // 잠금 판단
   const currentRouteIsLocked = (() => {
+    return false; // [2026-04-23] 콘텐츠 제한 비활성화 — 전면 무료 개방
     if (isFreePage(location.pathname)) return false;
     if (isFirstVisit) return false;
     if (hasLicense) return false;
