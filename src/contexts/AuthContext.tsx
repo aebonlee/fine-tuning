@@ -122,11 +122,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }
 
+  const isLoggedIn = !!user;
+
   const value: AuthContextType = {
     user,
     profile,
     loading,
-    isLoggedIn: !!user,
+    isLoggedIn,
     isAdmin: isAdmin(user?.email),
     signOut,
     updateProfile,

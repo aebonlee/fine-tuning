@@ -13,7 +13,7 @@
  *   await sendSMS({ receiver: '01012345678', message: '안녕하세요' });
  */
 
-import getSupabase from './supabase';
+import { supabase } from './supabase';
 
 // ── 타입 정의 ────────────────────────────────────────────────
 
@@ -41,11 +41,8 @@ export interface NotificationResult {
  * 발신 주소: noreply@dreamitbiz.com
  */
 export async function sendEmail(params: EmailParams): Promise<NotificationResult> {
-  const sb = getSupabase();
-  if (!sb) return { success: false, error: 'Supabase 초기화 실패' };
-
   try {
-    const { data, error } = await sb.functions.invoke('send-email', { body: params });
+    const { data, error } = await supabase.functions.invoke('send-email', { body: params });
     if (error) throw error;
     if (data?.error) throw new Error(data.error);
     return { success: true };
@@ -63,11 +60,8 @@ export async function sendEmail(params: EmailParams): Promise<NotificationResult
  * 90바이트(EUC-KR 기준) 초과 시 자동으로 LMS 전환
  */
 export async function sendSMS(params: SMSParams): Promise<NotificationResult> {
-  const sb = getSupabase();
-  if (!sb) return { success: false, error: 'Supabase 초기화 실패' };
-
   try {
-    const { data, error } = await sb.functions.invoke('send-sms', { body: params });
+    const { data, error } = await supabase.functions.invoke('send-sms', { body: params });
     if (error) throw error;
     if (data?.error) throw new Error(data.error);
     if (!data?.success) throw new Error(data?.message || 'SMS 발송 실패');
